@@ -87,7 +87,7 @@ font-size:1rpx;
                 else{
                    $.ajax({
                       method: "POST",
-                      url: "/util",
+                      url: "util",
                       data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
                     })
                     .done(function( msg ) {

@@ -62,7 +62,7 @@ public class DamUtil {
                     lock = new File(sfolder + "\\.lck");
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : Lock file is crated");
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
                     ProcessBuilder processBuilder = new ProcessBuilder();
                     processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getCommand(), sfolder, dfolder));
                     processBuilder.directory(new File(utilConf.getUtilPath()));
@@ -71,32 +71,32 @@ public class DamUtil {
                             new InputStreamReader(process.getInputStream()));
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        data.append(sdf.format(new Timestamp(System.currentTimeMillis())) +" : " + line + "\n");
+                        data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + line + "\n");
                     }
                     int exitVal = process.waitFor();
                     if (exitVal == 0) {
-                        data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : Job completed successfully");
+                        data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Job completed successfully");
                     } else {
-                        data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : Something went wrong, fore more details, please check logs!");
+                        data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Something went wrong, fore more details, please check logs!");
                     }
                 } catch (IOException e) {
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + e.getMessage());
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                     e.printStackTrace();
                 } catch (InterruptedException e) {
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + e.getMessage());
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                     e.printStackTrace();
                 }
             } catch (Exception e) {
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + e.getMessage());
+                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 try {
                     lockw.close();
                 } catch (Exception e) {
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + "No lock found");
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + "No lock found");
                 }
                 lock.delete();
-                data.append("\n sdf.format(new Timestamp(System.currentTimeMillis())) : Lock file is removed");
+                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is removed");
                 BufferedWriter bw = null;
                 FileWriter fw = null;
 
@@ -110,7 +110,7 @@ public class DamUtil {
                     bw = new BufferedWriter(fw);
                     bw.write(data.toString());
                 } catch (IOException e) {
-                    data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + e.getMessage());
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                     e.printStackTrace();
                 } finally {
                     try {
@@ -119,7 +119,7 @@ public class DamUtil {
                         if (fw != null)
                             fw.close();
                     } catch (IOException ex) {
-                        data.append("\n"+ sdf.format(new Timestamp(System.currentTimeMillis()))+" : " + ex.getMessage());
+                        data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + ex.getMessage());
                         ex.printStackTrace();
                     }
                 }
