@@ -13,8 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 public class UtilConf {
     @Value("${util-path}")
     private String utilPath;
-    @Value("${baseFolder}")
-    private String baseFolder;
     @Value("${command}")
     private String command;
 
@@ -24,14 +22,6 @@ public class UtilConf {
 
     public void setUtilPath(String utilPath) {
         this.utilPath = utilPath;
-    }
-
-    public String getBaseFolder() {
-        return baseFolder;
-    }
-
-    public void setBaseFolder(String baseFolder) {
-        this.baseFolder = baseFolder;
     }
 
     public String getCommand() {

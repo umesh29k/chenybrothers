@@ -13,8 +13,13 @@
 		margin-top: -55px;
 		}
 		td{
-		    padding: 10px;
+		padding: 10px;
 		}
+        .err{
+        color:red;
+        font-size:12px;
+        }
+
 
 </style>
 <table width="100%">
@@ -26,12 +31,12 @@
             <table>
                 <tr>
                     <td>Destination Folder:</td>
-                    <td><input type="text" name="dfolder" value="destination-folder" disabled/>
-                        <input type="hidden" name="dhfolder" value="destination-folder" /></td>
+                    <td><input type="text" name="dfolder" value="" placeholder="Destination folder" disabled/>
+                        <input type="hidden" name="dhfolder" value=""/></td>
                 </tr>
                 <tr>
                     <td>Source Location:</td>
-                    <td><input type="text" name="sfolder" multiple/></span></td>
+                    <td><input type="text" name="sfolder" placeholder="Source folder"/></td>
                 </tr>
                 <tr>
                     <td>
@@ -41,6 +46,7 @@
                         <button>Start</button>
                     </td>
                 </tr>
+                <tr><td claspan="2"><span class="err"></span></td></tr>
             </table>
         </td>
     </tr>
@@ -56,25 +62,46 @@
 			$('input[type=file]').change(function () {
 				console.log(this.files[0].mozFullPath);
 			});
+			$($("button")[1]).click(function(){
+			    $("input[type='text']").siblings("span").html("");
+                if($($("input[type='text']")[0]).val() == "")
+                    $("span.err").html("Destination location empty!");
+                else
+                if($($("input[name='dhfolder']")).val() == "")
+                    $("span.err").html("Upload to 'My Folder' not allowed");
+                else if($($("input[type='text']")[1]).val() == "")
+                    $("span.err").html("Source location empty!");
+                else{
+                   $.ajax({
+                      method: "POST",
+                      url: "/util",
+                      data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
+                    })
+                    .done(function( msg ) {
+                        alert( "Data Saved: " + msg );
+                    });
+                }
+            });
+            $($("button")[0]).click(function(){
+                $("input[type='text']").val("");
+                $("input[type='text']").siblings("span").html("");
+            });
 		});
 
-        var checkExist = setInterval(function() {
+        setInterval(function() {
            if ($("input[name='dfolder'").length) {
-              console.log("Exists!");
               $("#treeDemo a").click(function(d){
                 $("input[name='dfolder'").val($(this).children(".node_name").html());
                 $("input[name='dhfolder'").val(folders[$(this).children(".node_name").html()]);
-                console.log(folders[$(this).children(".node_name").html()]);
-            });
+              });
            }
         }, 1000);
-
-		var setting = {
-		data: {
-		simpleData: {
-		enable: true
-		}
-		}
+        var setting = {
+            data: {
+                simpleData: {
+                enable: true
+                }
+            }
 		};
 
 		var zNodes =[
@@ -83,7 +110,7 @@
 		{ id:"18a761d386e187f35190562ec39844b8b0211e2b", pId:"1001N", name:"Media"}
 		];
 
-/*
+        /*
 		{ id:111, pId:11, name:"leaf node 111"},
 		{ id:112, pId:11, name:"leaf node 112"},
 		{ id:113, pId:11, name:"leaf node 113"},
@@ -115,6 +142,9 @@
 		$(document).ready(function(){
 		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		});
+
+
+
 
 
 </SCRIPT>

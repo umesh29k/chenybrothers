@@ -1,3 +1,2 @@
-util-path: "e:\\utility\\"
-command: hello "This is test"
-baseFolder: 3001
+util-path: "E:\\OpenText\\Home\\content\\bin"
+command: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\webapps\cbutil\folder.properties
