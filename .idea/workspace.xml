@@ -25,12 +25,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Utility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/DamUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/DamUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/component/UtilConf.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/itpaths/dam/component/UtilConf.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/rest/Utility.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/rest/Utility.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/service/DamUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/itpaths/dam/service/DamUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/todo.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,21 +105,25 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1557" height="309" key="GridCell.Tab.0.bottom" timestamp="1593891845156">
+    <state x="605" y="114" key="#com.intellij.ide.util.MemberChooser" timestamp="1593893806926">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593891845156" />
-    <state width="1557" height="309" key="GridCell.Tab.0.center" timestamp="1593891845156">
+    <state x="605" y="114" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1593893806926" />
+    <state width="1557" height="309" key="GridCell.Tab.0.bottom" timestamp="1593893614442">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1593891845156" />
-    <state width="1557" height="309" key="GridCell.Tab.0.left" timestamp="1593891845156">
+    <state width="1557" height="309" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593893614442" />
+    <state width="1557" height="309" key="GridCell.Tab.0.center" timestamp="1593893614442">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1593891845156" />
-    <state width="1557" height="309" key="GridCell.Tab.0.right" timestamp="1593891845156">
+    <state width="1557" height="309" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1593893614442" />
+    <state width="1557" height="309" key="GridCell.Tab.0.left" timestamp="1593893614442">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1593891845156" />
+    <state width="1557" height="309" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1593893614442" />
+    <state width="1557" height="309" key="GridCell.Tab.0.right" timestamp="1593893614442">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="309" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1593893614442" />
   </component>
 </project>

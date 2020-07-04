@@ -21,7 +21,7 @@ public class Utility {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public String index(@RequestParam(name="dfolder") String df, @RequestParam(name="sfolder") String sf) {
-        StringBuilder output = damUtil.status(df, sf);
-        return "Greetings from Spring Boot!\n" + output;
+        String output = damUtil.status(df, sf);
+        return output;
     }
 }

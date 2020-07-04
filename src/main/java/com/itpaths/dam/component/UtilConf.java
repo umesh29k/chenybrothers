@@ -15,6 +15,16 @@ public class UtilConf {
     private String utilPath;
     @Value("${command}")
     private String command;
+    @Value(("${log}"))
+    private String log;
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
+    }
 
     public String getUtilPath() {
         return utilPath;
@@ -31,4 +41,5 @@ public class UtilConf {
     public void setCommand(String command) {
         this.command = command;
     }
+
 }
