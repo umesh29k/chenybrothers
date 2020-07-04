@@ -59,7 +59,7 @@
 		});
 
         var checkExist = setInterval(function() {
-           if ($('#the-canvas').length) {
+           if ($("input[name='dfolder'").length) {
               console.log("Exists!");
               $("#treeDemo a").click(function(d){
                 $("input[name='dfolder'").val($(this).children(".node_name").html());
