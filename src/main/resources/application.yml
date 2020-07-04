@@ -1,3 +1,3 @@
-util-path: "E:\\OpenText\\Home\\content\\bin"
-command: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder E:\OpenText\Home\imconv\webapps\cbutil\folder.properties > E:\OpenText\Home\imconv\webapps\cbutil\logs.txt
-log: E:\OpenText\Home\imconv\webapps\cbutil\logs.txt
+util-path: "D:\\OpenText\\Home\\content\\bin"
+command: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\webapps\cbutil\folder.properties > D:\OpenText\Home\imconv\webapps\cbutil\logs.txt
+log: D:\OpenText\Home\imconv\webapps\cbutil\job.log

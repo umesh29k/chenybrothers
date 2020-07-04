@@ -17,30 +17,30 @@ public class DamUtil {
     StringBuilder output = new StringBuilder();
     StringBuilder error = new StringBuilder();
 
-    public String status(String df, String sf){
+    public String status(String df, String sf) {
         boolean dir = false;
         this.dfolder = df;
         this.sfolder = sf;
         File sdir = null;
         try {
             sdir = new File(sf);
-            if(sdir.isDirectory())
+            if (sdir.isDirectory())
                 dir = true;
             else
                 error.append("Invalid source folder");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             error.append("Invalid source folder");
         }
 
-        if(dir) {
+        if (dir) {
             output.append(">>>>>>>>> " + utilConf.getUtilPath() + "\n ");
             output.append(">>>>>>>>> " + MessageFormat.format(utilConf.getCommand(), sf, df) + "\n ");
-        }
-        else{
+            Ope ope = new Ope();
+            ope.start();
+        } else {
             error.append("<br>Invalid input");
         }
-        String response = "{\"output\": \"" + output.toString().replaceAll("\b", "/") +"\", \"error\": \"" + error + "\" }";
+        String response = "{\"output\": \"" + output.toString().replaceAll("\b", "/") + "\", \"error\": \"" + error + "\" }";
         return response;
     }
 
@@ -52,71 +52,76 @@ public class DamUtil {
             long startTime = System.currentTimeMillis();
             int i = 0;
             File lock = null;
+            File file = new File(sfolder + "\\import.log");
             StringBuilder data = new StringBuilder();
-            while (true) {
+            FileWriter lockw = null;
+            try {
                 try {
-                    try {
-                        lock = new File(utilConf.getUtilPath() + "\\.lck");
-                        ProcessBuilder processBuilder = new ProcessBuilder();
-                        processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getCommand(), sfolder, dfolder));
-                        processBuilder.directory(new File(utilConf.getUtilPath()));
-                        Process process = processBuilder.start();
-                        BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(process.getInputStream()));
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            output.append(line + "\n");
-                        }
-                        int exitVal = process.waitFor();
-                        if (exitVal == 0) {
-                            output.append("Job completed successfully");
-                            data.append("Job completed successfully");
-                        } else {
-                            output.append("Something went wrong, fore more details, please check logs!");
-                            data.append("Something went wrong, fore more details, please check logs!");
-                        }
-                    } catch (IOException e) {
-                        data.append(e.getMessage());
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        data.append(e.getMessage());
-                        e.printStackTrace();
+                    lock = new File(new File(sfolder).getParent() + "\\.lck");
+                    lock.createNewFile();
+                    lockw = new FileWriter(lock.getAbsoluteFile(), true);
+                    data.append("Lock file is crated");
+                    ProcessBuilder processBuilder = new ProcessBuilder();
+                    processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getCommand(), sfolder, dfolder));
+                    processBuilder.directory(new File(utilConf.getUtilPath()));
+                    Process process = processBuilder.start();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(process.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        data.append(line + "\n");
                     }
-                } catch (Exception e) {
+                    int exitVal = process.waitFor();
+                    if (exitVal == 0) {
+                        data.append("Job completed successfully");
+                    } else {
+                        data.append("Something went wrong, fore more details, please check logs!");
+                    }
+                } catch (IOException e) {
+                    data.append(e.getMessage());
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     data.append(e.getMessage());
                     e.printStackTrace();
                 }
-                finally {
-                   // lock.delete();
-                    BufferedWriter bw = null;
-                    FileWriter fw = null;
+            } catch (Exception e) {
+                data.append(e.getMessage());
+                e.printStackTrace();
+            } finally {
+                try {
+                    lockw.close();
+                } catch (Exception e) {
+                }
+                lock.delete();
+                data.append("Lock file is removed");
+                BufferedWriter bw = null;
+                FileWriter fw = null;
 
+                try {
+                    // if file doesnt exists, then create it
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    // true = append file
+                    fw = new FileWriter(file.getAbsoluteFile(), true);
+                    bw = new BufferedWriter(fw);
+                    bw.write(data.toString());
+                } catch (IOException e) {
+                    data.append(e.getMessage());
+                    e.printStackTrace();
+                } finally {
                     try {
-                        File file = new File(utilConf.getLog());
-                        // if file doesnt exists, then create it
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
-                        // true = append file
-                        fw = new FileWriter(file.getAbsoluteFile(), true);
-                        bw = new BufferedWriter(fw);
-                        bw.write(data.toString());
-                    } catch (IOException e) {
-                        data.append(e.getMessage());
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            if (bw != null)
-                                bw.close();
-                            if (fw != null)
-                                fw.close();
-                        } catch (IOException ex) {
-                            data.append(ex.getMessage());
-                            ex.printStackTrace();
-                        }
+                        if (bw != null)
+                            bw.close();
+                        if (fw != null)
+                            fw.close();
+                    } catch (IOException ex) {
+                        data.append(ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
             }
+
         }
     }
 }
