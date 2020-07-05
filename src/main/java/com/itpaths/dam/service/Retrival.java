@@ -23,7 +23,7 @@ public class Retrival {
     private RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders requestHeaders = new HttpHeaders();
     private JsonObject jsonObject = new JsonObject();
-    private Set<String> ids = new  CopyOnWriteArraySet<>();
+    private Set<String> ids = new CopyOnWriteArraySet<>();
 
     public String getFolders(String fId) {
         ResponseEntity<String> entity = null;
@@ -34,6 +34,7 @@ public class Retrival {
         if (!id.isEmpty()) {
             synchronized (this) {
                 getAllFolders(fId, entity, requestEntity, folders);
+                getFolder(fId, entity, requestEntity, folders);
             }
             if (data.size() == 1) {
                 boolean status = (boolean) data.get("status");
@@ -44,9 +45,28 @@ public class Retrival {
                 restTemplate.exchange(Constants.URL + "sessions", HttpMethod.DELETE, requestEntity, String.class);
             } catch (Exception e) {
             }
-            return jsonObject.toString();
+            if (folders.size() > 0)
+                return folders.toString();
+            else
+                return jsonObject.toString();
         } else {
             return jsonObject.toString();
+        }
+    }
+
+    private void getFolder(String fId, ResponseEntity<String> entity, HttpEntity requestEntity, JsonArray folders) {
+        try {
+            entity = restTemplate.exchange(Constants.URL + "folders/" + id, HttpMethod.GET, requestEntity, String.class);
+            JsonObject jo = new Gson().fromJson(entity.getBody(), JsonObject.class);
+            for (JsonElement obj : jo.getAsJsonObject("folders_resource").getAsJsonArray("folder")) {
+                JsonObject folder = new JsonObject();
+                folder.addProperty("open", true);
+                folder.addProperty("id", obj.getAsJsonObject().get("container_id").getAsString());
+                folder.addProperty("name", obj.getAsJsonObject().get("name").getAsString());
+                folders.add(folder);
+                ids.add(obj.getAsJsonObject().get("container_id").getAsString());
+            }
+        } catch (Exception e) {
         }
     }
 
