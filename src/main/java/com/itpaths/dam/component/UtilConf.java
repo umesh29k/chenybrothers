@@ -17,6 +17,8 @@ public class UtilConf {
     private String command;
     @Value(("${log}"))
     private String log;
+    @Value(("${data}"))
+    private String data;
 
     public String getLog() {
         return log;
@@ -42,4 +44,11 @@ public class UtilConf {
         this.command = command;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 }

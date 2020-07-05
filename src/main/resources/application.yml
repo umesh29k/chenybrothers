@@ -1,3 +1,4 @@
 util-path: "D:\\OpenText\\Home\\content\\bin"
 command: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > D:\OpenText\Home\imconv\logs\cbutil-logs.txt
 log: D:\OpenText\Home\imconv\logs\job-status.log
+data: dHN1cGVyO090bW1AMTIz
