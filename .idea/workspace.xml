@@ -19,13 +19,22 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ec475e-494d-4000-8ec1-0eeac78184f4" name="Default Changelist" comment="">
+    <list default="true" id="b1ec475e-494d-4000-8ec1-0eeac78184f4" name="Default Changelist" comment="updates for folder listing and injected to UI">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/script/get.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serving-web-content.iml" beforeDir="false" afterPath="$PROJECT_DIR$/serving-web-content.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Api.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/web/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/web/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/zTreeStyle/zTreeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/zTreeStyle/zTreeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/script/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/script/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/web/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/web/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/zTreeStyle/zTreeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/zTreeStyle/zTreeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/script/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/script/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/todo.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +103,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Test (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.itpaths.dam.Test" />
+      <module name="serving-web-content" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.itpaths.dam.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Test" />
       <module name="serving-web-content" />
@@ -104,6 +126,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Application" />
+        <item itemvalue="Application.Test (1)" />
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
@@ -119,6 +142,14 @@
       <option name="presentableId" value="Default" />
       <updated>1593875601595</updated>
     </task>
+    <task id="LOCAL-00001" summary="updates for folder listing and injected to UI">
+      <created>1593978699298</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593978699298</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -133,51 +164,55 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="updates for folder listing and injected to UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates for folder listing and injected to UI" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="605" y="114" key="#com.intellij.ide.util.MemberChooser" timestamp="1593960451379">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="605" y="114" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1593960451379" />
-    <state width="735" height="466" key="DebuggerActiveHint" timestamp="1593967321886">
+    <state width="735" height="466" key="DebuggerActiveHint" timestamp="1593991529578">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="735" height="466" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1593967321886" />
+    <state width="735" height="466" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1593991529578" />
     <state x="506" y="171" key="FileChooserDialogImpl" timestamp="1593953355983">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="506" y="171" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1593953355983" />
-    <state width="1557" height="309" key="GridCell.Tab.0.bottom" timestamp="1593978567050">
+    <state width="1557" height="276" key="GridCell.Tab.0.bottom" timestamp="1593992433068">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593978567050" />
-    <state width="1557" height="309" key="GridCell.Tab.0.center" timestamp="1593978567050">
+    <state width="1557" height="276" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593992433068" />
+    <state width="1557" height="276" key="GridCell.Tab.0.center" timestamp="1593992433068">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1593978567050" />
-    <state width="1557" height="309" key="GridCell.Tab.0.left" timestamp="1593978567050">
+    <state width="1557" height="276" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1593992433068" />
+    <state width="1557" height="276" key="GridCell.Tab.0.left" timestamp="1593992433068">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1593978567050" />
-    <state width="1557" height="309" key="GridCell.Tab.0.right" timestamp="1593978567050">
+    <state width="1557" height="276" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1593992433068" />
+    <state width="1557" height="276" key="GridCell.Tab.0.right" timestamp="1593992433068">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="309" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1593978567050" />
-    <state width="1557" height="276" key="GridCell.Tab.1.bottom" timestamp="1593972838838">
+    <state width="1557" height="276" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1593992433068" />
+    <state width="1557" height="276" key="GridCell.Tab.1.bottom" timestamp="1593992450443">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593972838838" />
-    <state width="1557" height="276" key="GridCell.Tab.1.center" timestamp="1593972838838">
+    <state width="1557" height="276" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1593992450443" />
+    <state width="1557" height="276" key="GridCell.Tab.1.center" timestamp="1593992450442">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1593972838838" />
-    <state width="1557" height="276" key="GridCell.Tab.1.left" timestamp="1593972838838">
+    <state width="1557" height="276" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1593992450442" />
+    <state width="1557" height="276" key="GridCell.Tab.1.left" timestamp="1593992450442">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1593972838838" />
-    <state width="1557" height="276" key="GridCell.Tab.1.right" timestamp="1593972838838">
+    <state width="1557" height="276" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1593992450442" />
+    <state width="1557" height="276" key="GridCell.Tab.1.right" timestamp="1593992450443">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1593972838838" />
+    <state width="1557" height="276" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1593992450443" />
     <state x="330" y="85" key="Maven.ArtifactSearchDialog" timestamp="1593953182541">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -190,6 +225,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="521" y="171" width="540" height="524" key="StructurePopup/0.0.1600.860@0.0.1600.860" timestamp="1593951536371" />
+    <state x="392" y="165" key="Vcs.Push.Dialog.v2" timestamp="1593978702245">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="392" y="165" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1593978702245" />
     <state width="808" height="438" key="XDebugger.FullValuePopup" timestamp="1593965300575">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -202,10 +241,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1593975537545" />
-    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1593974635659">
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1593992209669">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1593974635659" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1593992209669" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -222,28 +261,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
-          <line>35</line>
+          <line>45</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
-          <line>42</line>
+          <line>52</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
+          <line>145</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

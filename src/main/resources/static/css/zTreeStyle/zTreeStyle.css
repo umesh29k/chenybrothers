@@ -113,3 +113,6 @@ font-size:1rpx;
 display: block;
 margin: auto;
 }
+button{
+cursor:pointer;
+}

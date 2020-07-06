@@ -95,3 +95,24 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	padding:0;
 	background:none;
 }*/
+div{
+margin-left:10px;
+}
+td{
+padding: 10px;
+}
+.err{
+color:red;
+font-size:14px;
+}
+.success{
+color:green;
+font-size:1rpx;
+}
+.center{
+display: block;
+margin: auto;
+}
+button{
+cursor:pointer;
+}

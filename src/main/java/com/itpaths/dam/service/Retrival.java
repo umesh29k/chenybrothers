@@ -24,10 +24,20 @@ public class Retrival {
     private HttpHeaders requestHeaders = new HttpHeaders();
     private JsonObject jsonObject = new JsonObject();
     private Set<String> ids = new CopyOnWriteArraySet<>();
+    private static boolean status = false;
 
     public String getFolders(String fId) {
         ResponseEntity<String> entity = null;
-        HttpEntity requestEntity = initializeSession();
+        byte[] bytes = Base64.getDecoder().decode(utilConf.getData());
+        String[] cred = null;
+        HttpEntity requestEntity = null;
+        try {
+            cred = new String(bytes, "utf-8").split(";");
+            requestEntity = initializeSession(cred[0], cred[1]);
+        } catch (UnsupportedEncodingException | ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+            jsonObject.add("status", new Gson().fromJson("[\"Unable to retrieve credentials\"]", JsonArray.class));
+        }
         Map<String, Object> data = new HashMap<>();
         JsonArray folders = new JsonArray();
         isIte = true;
@@ -86,7 +96,7 @@ public class Retrival {
         }
     }
 
-    private List<String> getFolders(String fId, ResponseEntity<String> entity, HttpEntity requestEntity, JsonArray folders) {
+    public List<String> getFolders(String fId, ResponseEntity<String> entity, HttpEntity requestEntity, JsonArray folders) {
         List<String> ids = new ArrayList<>();
         try {
             entity = restTemplate.exchange(Constants.URL + "folders/" + fId + "/folders", HttpMethod.GET, requestEntity, String.class);
@@ -104,18 +114,30 @@ public class Retrival {
         return ids;
     }
 
-    public HttpEntity initializeSession() {
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-        byte[] bytes = Base64.getDecoder().decode(utilConf.getData());
-        String[] cred = null;
+    public String get(String dat) {
+        byte[] bytes;
+        String unm = "", pwd = "";
         try {
-            cred = new String(bytes, "utf-8").split(";");
-            requestBody.add("username", cred[0]);
-            requestBody.add("password", cred[1]);
+            String[] cred = dat.split("#@!");
+            bytes = Base64.getDecoder().decode(cred[0]);
+            unm = new String(bytes, "utf-8");
+            bytes = Base64.getDecoder().decode(cred[1]);
+            pwd = new String(bytes, "utf-8");
+            initializeSession(unm, pwd);
         } catch (UnsupportedEncodingException | ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
             jsonObject.add("status", new Gson().fromJson("[\"Unable to retrieve credentials\"]", JsonArray.class));
         }
+        if (status)
+            return "{\"status\":true}";
+        else
+            return "{\"status\":false}";
+    }
+
+    public HttpEntity initializeSession(String unm, String pwd) {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+        requestBody.add("username", unm);
+        requestBody.add("password", pwd);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -131,6 +153,8 @@ public class Retrival {
             //Remove session entry form json object
             jsonObject.remove("session_resource");
             request = new HttpEntity(null, requestHeaders);
+            if (!id.isEmpty())
+                status = true;
         } catch (Exception e) {
             jsonObject.add("status", new Gson().fromJson("[\"invalid credentials\"]", JsonArray.class));
         }

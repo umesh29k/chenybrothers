@@ -4,17 +4,15 @@ document.write(unescape("%3Cscript src='script/jquery.ztree.core.min.js' type='t
 document.write(unescape("%3Cscript src='script/bootstrap.min.js' type='text/javascript'%3E%3C/script%3E"));
 document.write(unescape("%3Cscript src='script/popper.min.js' type='text/javascript'%3E%3C/script%3E"));
 
-var folders = {
-    "Hybris":"b12dd0cc95afc7cb641f9595182ed47745a091da",
-    "Media":"18a761d386e187f35190562ec39844b8b0211e2b"
-};
 var zNodes =[{ id:"1001N", name:"Loading..", open:true}];
 $(document).ready(function(){
-    $('input[type=file]').change(function () {
-        console.log(this.files[0].mozFullPath);
-    });
+    if(sessionStorage.getItem("access") != undefined){
+        if(sessionStorage.getItem("access") != "allowed")
+            window.open("/","_self");
+    }
+    else
+        window.open("/","_self");
     $($("button")[1]).click(function(){
-        $("input[type='text']").siblings("span").html("");
         if($($("input[type='text']")[0]).val() == "")
             $(".err").html("Destination location empty!");
         else
@@ -31,12 +29,12 @@ $(document).ready(function(){
             .done(function( msg ) {
                 $(".err").html(JSON.parse(msg).error);
                 $(".success").html(JSON.parse(msg).output);
+                sessionStorage.clear();
             });
         }
     });
     $($("button")[0]).click(function(){
         $("input[type='text']").val("");
-        $("input[type='text']").siblings("span").html("");
         $(".err").html("");
         $(".success").html("");
     });
