@@ -65,6 +65,7 @@ public class DamUtil {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
                     ProcessBuilder processBuilder = new ProcessBuilder();
                     processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getCommand(), sfolder, dfolder));
+                    System.out.println(MessageFormat.format(utilConf.getCommand(), sfolder, dfolder)+"\n");
                     processBuilder.directory(new File(utilConf.getUtilPath()));
                     Process process = processBuilder.start();
                     BufferedReader reader = new BufferedReader(

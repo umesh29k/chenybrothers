@@ -50,6 +50,14 @@ public class Retrival {
             synchronized (this) {
                 getAllFolders(fId, entity, requestEntity, folders);
                 getFolder(fId, entity, requestEntity, folders);
+                int i=0;
+                for(JsonElement je : folders){
+                    if(je.getAsJsonObject().get("name").getAsString().equalsIgnoreCase("my orphans")) {
+                        folders.remove(i);
+                        break;
+                    }
+                    i++;
+                }
             }
             if (data.size() == 1) {
                 boolean status = (boolean) data.get("status");

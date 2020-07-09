@@ -116,3 +116,6 @@ margin: auto;
 button{
 cursor:pointer;
 }
+.body{
+display:none;
+}

@@ -6,32 +6,20 @@ document.write(unescape("%3Cscript src='script/popper.min.js' type='text/javascr
 
 var zNodes =[{ id:"1001N", name:"Loading..", open:true}];
 $(document).ready(function(){
+    var ready = false;
     if(sessionStorage.getItem("access") != undefined){
         if(sessionStorage.getItem("access") != "allowed")
             window.open("/","_self");
     }
     else
         window.open("/","_self");
+    $(document).bind('keypress', function(e) {
+         if(e.keyCode==13 && ready){
+              submit();
+         }
+    });
     $($("button")[1]).click(function(){
-        if($($("input[type='text']")[0]).val() == "")
-            $(".err").html("Destination location empty!");
-        else
-        if($($("input[name='dhfolder']")).val() == "")
-            $(".err").html("Upload to 'My Folder' not allowed");
-        else if($($("input[type='text']")[1]).val() == "")
-            $(".err").html("Source location empty!");
-        else{
-           $.ajax({
-              method: "POST",
-              url: "util",
-              data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
-            })
-            .done(function( msg ) {
-                $(".err").html(JSON.parse(msg).error);
-                $(".success").html(JSON.parse(msg).output);
-                sessionStorage.clear();
-            });
-        }
+        submit();
     });
     $($("button")[0]).click(function(){
         $("input[type='text']").val("");
@@ -45,6 +33,9 @@ $(document).ready(function(){
     .done(function( data ) {
         zNodes = JSON.parse(data);
         $.fn.zTree.init($("#treeDemo"), setting, JSON.parse(data));
+        $(".loader").hide();
+        $(".body").show();
+        ready = true;
     });
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 });
@@ -64,3 +55,28 @@ var setting = {
         }
     }
 };
+function submit(){
+    if($($("input[type='text']")[0]).val() == "")
+        $(".err").html("Destination location empty!");
+    else
+    if($($("input[name='dhfolder']")).val() == "")
+        $(".err").html("Upload to 'My Folder' not allowed");
+    else if($($("input[type='text']")[1]).val() == "")
+        $(".err").html("Source location empty!");
+    else{
+       $(".loader").show();
+       $.ajax({
+          method: "POST",
+          url: "util",
+          data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
+        })
+        .done(function( msg ) {
+            $(".err").html("");
+            $(".success").html("");
+            $(".err").html(JSON.parse(msg).error);
+            $(".success").html(JSON.parse(msg).output);
+            sessionStorage.clear();
+            $(".loader").hide();
+        });
+    }
+}
