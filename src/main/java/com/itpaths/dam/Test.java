@@ -1,34 +1,61 @@
 package com.itpaths.dam;
 
 
-import com.fasterxml.jackson.core.format.InputAccessor;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itpaths.dam.service.Retrival;
 import com.itpaths.dam.util.Constants;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import static org.apache.tomcat.util.http.fileupload.FileUtils.deleteDirectory;
 
 public class Test {
     Set<String> ids = new HashSet<>();
 
-    public static void main(String[] a) {
+    public void createFolder(String source, String dest) {
+        List<File> files = new ArrayList<>();
+        listFiles(source, files);
+        for (File f : files) {
+            String npth = f.getAbsolutePath();
+            new File(npth.replace(source, dest)).mkdir();
+        }
+    }
+
+    public void cleanup(String dest) {
+        File[] allContents = new File(dest).listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                try {
+                    deleteDirectory(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void mapFolders(){
+        Retrival retrival = new Retrival();
+        String fId = "1001N";
+        JsonArray allFolders = new Gson().fromJson(retrival.getFolders(fId), JsonArray.class);
+
         String rpth = "E:\\ncert books";
         List<File> files = new ArrayList<>();
-        listf(rpth, files);
-        Map<String, List<String>> map = new HashMap<>();
+
+        listFiles(rpth, files);
+        List<Node> nodes = new ArrayList<>();
+        List<List<String>> dlist = new ArrayList<>();
         for (File f : files) {
             String[] pth = null;
-            String opth = rpth.replaceAll("[^a-zA-Z0-9-&]", "/");
-            String npth = f.getAbsolutePath().replaceAll("[^a-zA-Z0-9&]", "/");
-            System.out.println(npth.replace(opth, ""));
+            String opth = rpth.replace('\\', '/');
+            String npth = f.getAbsolutePath().replace('\\', '/');
             if (npth != null)
                 pth = npth.replace(opth, "").split("/");
             List<String> list = Collections.synchronizedList(Arrays.asList(pth));
@@ -38,75 +65,71 @@ public class Test {
                 if (dlst.get(0).isEmpty())
                     dlst.remove(0);
             }
-            m(dlst, map);
-            JsonObject folder = new JsonObject();
-            //create folder
-            //get folder id
-
-            //find all children of folder-id
-            //if [0..n] index name exist in folder-children
-            //take folder-id, get all children
-            //else
-            //create folder-id, get folder-id, add folder-id
-
-            //trigger job for each folder to retrieve impex
-
-            /*Retrival retrival = new Retrival();
-            String fId = "";
-            ResponseEntity<String> entity = null;
-            HttpEntity requestEntity = null;
-            RestTemplate restTemplate = new RestTemplate();
-            JsonArray folders = new JsonArray();
-            String fname = "";
-            for (String nm : dlst) {
-                entity = restTemplate.exchange(Constants.URL + "folders/" + fId + "/folders", HttpMethod.GET, requestEntity, String.class);
-                JsonObject jo = new Gson().fromJson(entity.getBody(), JsonObject.class);
-                for (JsonElement obj : jo.getAsJsonObject("folders_resource").getAsJsonArray("folder_list")) {
-                    if (obj.getAsJsonObject().get("name").getAsString().equals(fname)) {
-                        //map folder id
-                    } else
-                        folder.addProperty("pId", fId);
-                    folder.addProperty("id", obj.getAsJsonObject().get("container_id").getAsString());
-                    folder.addProperty("name", obj.getAsJsonObject().get("name").getAsString());
-                    folders.add(folder);
-                }
-            }*/
+            dlist.add(dlst);
         }
-        System.out.println(map);
-    }
 
-    public static Map<String, List<String>> m(List<String> list, Map<String, List<String>> map) {
-        if (list.size() == 1) {
-            map.put(list.get(0), new ArrayList<>());
-        } else {
-            StringBuilder prnt = new StringBuilder();
-            for (String nme : list) {
-                if (prnt.toString().isEmpty()) {
-                    if (!map.containsKey(nme)) {
-                        /**
-                         * add only if, if doesn't existing in map
-                         */
-                        map.put(nme, new ArrayList<>());
-                    } else {
-                        /**
-                         * do nothing, becase parent already exists
-                         */
-                    }
-                } else {
-                    if (map.containsKey(prnt)) {
-                        if (!map.get(prnt).contains(nme))
-                            map.get(prnt).add(nme);
-                    } else {
+        HashMap<Integer, List<Node>> map = new HashMap<>();
+        int index = 0;
+        for (List<String> list : dlist) {
+            if (list.size() > index)
+                index = list.size();
+        }
+        for (int i = 1; i <= index; i++) {
+            summarize(dlist, map, i);
+        }
 
-                    }
-                }
-                prnt.append(nme + "/");
+        for (int i : map.keySet()) {
+            System.out.println("\n\n");
+            for (Node n : map.get(i)) {
+                System.out.println(n.getName());
             }
         }
-        return map;
+
+        HttpEntity he = retrival.initializeSession("tsupre", "Otmm@123");
+        ResponseEntity<String> entity = null;
+        for (int i : map.keySet()) {
+            for (Node n : map.get(1)) {
+                if (1 == 1)
+                    retrival.getFolders(fId, entity, he, allFolders);
+                else
+                    retrival.getFolders(n.getParent().getKey(), entity, he, allFolders);
+                for (JsonElement je : allFolders) {
+                    JsonObject jo = je.getAsJsonObject();
+                    if (jo.get("name").getAsString().equalsIgnoreCase(n.getName())) {
+                        n.setKey(jo.get("id").getAsString());
+                    }
+                }
+            }
+        }
     }
 
-    public static void listf(String directoryName, List<File> files) {
+    public static void main(String[] a) {
+        Test test = new Test();
+        test.createFolder("E:\\ncert books", "E:\\test");
+    }
+
+    public static void summarize(List<List<String>> dlist, HashMap<Integer, List<Node>> nodes, int index) {
+        List<Node> nl = new ArrayList<>();
+        for (List<String> list : dlist) {
+            if (list.size() == index) {
+                Node node = new Node();
+                node.setName(list.get(index - 1));
+                node.setIndex(index);
+                if (nodes.size() > 0) {
+                    for (Node n : nodes.get(index - 1)) {
+                        if (n.getName().equalsIgnoreCase(list.get(index - 2)))
+                            node.setParent(n);
+                    }
+                } else {
+                    node.setParent(new Node());
+                }
+                nl.add(node);
+            }
+        }
+        nodes.put(index, nl);
+    }
+
+    public static void listFiles(String directoryName, List<File> files) {
         File directory = new File(directoryName);
         File[] fList = directory.listFiles();
         if (fList != null)
@@ -116,24 +139,48 @@ public class Test {
                 } else*/
                 if (file.isDirectory()) {
                     files.add(file);
-                    listf(file.getAbsolutePath(), files);
+                    listFiles(file.getAbsolutePath(), files);
                 }
             }
     }
 
 }
 
-/***
- * split:
- * source-folder || folder dir
- * create-map
- * location- complete folder path for import
- * folder-dir-name, which need to create
- * - check, if folder name exists to location
- * if no
- * - create a folder under
- * - map folder-id and folder-absolute-path to new map
- * else
- * - map folder-id of found-folder and folder-absolute-path to new map
- * - iterate over new-map create for import utility
- */
+class Node {
+    private Node parent;
+    private String name;
+    private int index;
+    private String key;
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+}

@@ -28,16 +28,21 @@ public class Retrival {
 
     public String getFolders(String fId) {
         ResponseEntity<String> entity = null;
-        byte[] bytes = Base64.getDecoder().decode(utilConf.getData());
-        String[] cred = null;
         HttpEntity requestEntity = null;
-        try {
-            cred = new String(bytes, "utf-8").split(";");
-            requestEntity = initializeSession(cred[0], cred[1]);
-        } catch (UnsupportedEncodingException | ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-            jsonObject.add("status", new Gson().fromJson("[\"Unable to retrieve credentials\"]", JsonArray.class));
+        byte[] bytes = null;
+        if(utilConf !=null) {
+            bytes = Base64.getDecoder().decode(utilConf.getData());
+            String[] cred = null;
+            try {
+                cred = new String(bytes, "utf-8").split(";");
+                requestEntity = initializeSession(cred[0], cred[1]);
+            } catch (UnsupportedEncodingException | ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                jsonObject.add("status", new Gson().fromJson("[\"Unable to retrieve credentials\"]", JsonArray.class));
+            }
         }
+        else
+            requestEntity = initializeSession("tsuper", "Otmm@123");
         Map<String, Object> data = new HashMap<>();
         JsonArray folders = new JsonArray();
         isIte = true;
@@ -159,5 +164,30 @@ public class Retrival {
             jsonObject.add("status", new Gson().fromJson("[\"invalid credentials\"]", JsonArray.class));
         }
         return request;
+    }
+
+    public HttpHeaders getRequestHeaders(String unm, String pwd) {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+        requestBody.add("username", unm);
+        requestBody.add("password", pwd);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(requestBody, headers);
+        try {
+            ResponseEntity<String> entity = restTemplate.exchange(Constants.URL + "sessions", HttpMethod.POST, request, String.class);
+            jsonObject = new JsonParser().parse(entity.getBody()).getAsJsonObject();
+            if (jsonObject.getAsJsonObject("session_resource") != null)
+                if (jsonObject.getAsJsonObject("session_resource").getAsJsonObject("session") != null)
+                    if (jsonObject.getAsJsonObject("session_resource").getAsJsonObject("session").get("message_digest") != null)
+                        id = jsonObject.getAsJsonObject("session_resource").getAsJsonObject("session").get("message_digest").getAsString();
+            requestHeaders.add("otmmauthtoken", id);
+            //Remove session entry form json object
+            jsonObject.remove("session_resource");
+            return  requestHeaders;
+        } catch (Exception e) {
+            jsonObject.add("status", new Gson().fromJson("[\"invalid credentials\"]", JsonArray.class));
+            return null;
+        }
     }
 }
