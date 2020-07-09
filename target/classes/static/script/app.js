@@ -64,6 +64,8 @@ function submit(){
     else if($($("input[type='text']")[1]).val() == "")
         $(".err").html("Source location empty!");
     else{
+       $(".err").html("");
+       $(".success").html("");
        $(".loader").show();
        $.ajax({
           method: "POST",
@@ -71,8 +73,6 @@ function submit(){
           data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
         })
         .done(function( msg ) {
-            $(".err").html("");
-            $(".success").html("");
             $(".err").html(JSON.parse(msg).error);
             $(".success").html(JSON.parse(msg).output);
             sessionStorage.clear();
