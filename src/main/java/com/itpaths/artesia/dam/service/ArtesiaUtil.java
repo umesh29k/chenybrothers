@@ -19,10 +19,13 @@ public class ArtesiaUtil {
     private UtilConf utilConf;
     @Autowired
     private ArtesiaWorker artesiaWorker;
+    @Autowired
+    private ArtesiaRetrival artesiaRetrival;
     private String dfolder, sfolder;
-    StringBuilder output = new StringBuilder();
-    StringBuilder error = new StringBuilder();
-    StringBuilder data = new StringBuilder();
+    private StringBuilder output = new StringBuilder();
+    private StringBuilder error = new StringBuilder();
+    private StringBuilder data = new StringBuilder();
+    private Map<Integer, List<Node>> nodes;
 
     public String status(String df, String sf) {
         boolean dir = false;
@@ -42,6 +45,7 @@ public class ArtesiaUtil {
         if (dir) {
             //prepare folders hierarchy
             artesiaWorker.parepare(sf, utilConf.getTempDir());
+            nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
             //creating folder heierarchy
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getPrep(), sfolder, dfolder));
@@ -90,7 +94,6 @@ public class ArtesiaUtil {
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
-                    Map<Integer, List<Node>> nodes = artesiaWorker.mapFolders(dfolder, sfolder);
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
                             ProcessBuilder processBuilder = new ProcessBuilder();

@@ -18,8 +18,6 @@ import static org.apache.tomcat.util.http.fileupload.FileUtils.deleteDirectory;
 @Service
 public class ArtesiaWorker {
     Set<String> ids = new HashSet<>();
-    @Autowired
-    ArtesiaRetrival retrival;
     public void parepare(String source, String dest) {
         List<File> files = new ArrayList<>();
         listFiles(source, files);
@@ -42,7 +40,7 @@ public class ArtesiaWorker {
         }
     }
 
-    public HashMap<Integer, List<Node>> mapFolders(String fId, String rpth) {
+    public HashMap<Integer, List<Node>> mapFolders(String fId, String rpth, ArtesiaRetrival retrival) {
         HashMap<Integer, List<Node>> map = new HashMap<>();
         JsonArray allFolders = new JsonArray();
         List<File> files = new ArrayList<>();
@@ -131,7 +129,7 @@ public class ArtesiaWorker {
         ArtesiaWorker test = new ArtesiaWorker();
         String fId = "eb455368d104f30c4785f2c864cbf04ca0449473";
         String rpth = "E:\\ncert books";
-        test.mapFolders(fId, rpth);
+        test.mapFolders(fId, rpth, new ArtesiaRetrival());
     }
 
     /**

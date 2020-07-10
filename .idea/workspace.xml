@@ -19,41 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc1a8db9-eb7e-4a12-b9f5-bb5c8e912419" name="Default Changelist" comment="fixes loader and my-orphans hide">
-      <change afterPath="$PROJECT_DIR$/otmm-help/Assets_Importer_Template_ValidationFile.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otmm-help/MDS Help 16.5.1.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otmm-help/folder.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otmm-help/impex.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/model/Node.java" afterDir="false" />
+    <list default="true" id="dc1a8db9-eb7e-4a12-b9f5-bb5c8e912419" name="Default Changelist" comment="final setup for utility">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets_Importer_Template_ValidationFile.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/Test1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/Test1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/component/UtilConf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/component/UtilConf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/rest/Api.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/rest/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/rest/Utility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/controller/web/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/web/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/model/Todo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/model/Todo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/DamUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Page.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaPager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/service/Retrival.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaRetrival.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/dam/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/itpaths/dam/ApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/itpaths/artesia/dam/ApplicationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/Application.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/component/UtilConf.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/Test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/rest/Utility.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/controller/web/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/model/Todo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/service/DamUtil$Ope.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/service/DamUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/itpaths/dam/service/Page.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/script/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/script/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/itpaths/dam/ApplicationTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,8 +128,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Application (1)" />
-        <item itemvalue="Application.Application" />
         <item itemvalue="Application.ArtesiaWorker" />
+        <item itemvalue="Application.Application" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.Test1" />
       </list>
@@ -183,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594326684848</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="final setup for utility">
+      <created>1594337438018</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1594337438018</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -201,7 +178,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="fixes loader and my-orphans hide" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes loader and my-orphans hide" />
+    <MESSAGE value="final setup for utility" />
+    <option name="LAST_COMMIT_MESSAGE" value="final setup for utility" />
   </component>
   <component name="WindowStateProjectService">
     <state x="605" y="122" key="#com.intellij.ide.util.MemberChooser" timestamp="1594332080071">
@@ -212,46 +190,46 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="54" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1594331267996" />
-    <state width="423" height="438" key="DebuggerActiveHint" timestamp="1594337283189">
+    <state width="423" height="438" key="DebuggerActiveHint" timestamp="1594337720926">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="423" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1594337283189" />
-    <state width="1557" height="199" key="GridCell.Tab.0.bottom" timestamp="1594337239671">
+    <state width="423" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1594337720926" />
+    <state width="1557" height="281" key="GridCell.Tab.0.bottom" timestamp="1594338374063">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594337239671" />
-    <state width="1557" height="199" key="GridCell.Tab.0.center" timestamp="1594337239671">
+    <state width="1557" height="281" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594338374063" />
+    <state width="1557" height="281" key="GridCell.Tab.0.center" timestamp="1594338374061">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1594337239671" />
-    <state width="1557" height="199" key="GridCell.Tab.0.left" timestamp="1594337239671">
+    <state width="1557" height="281" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1594338374061" />
+    <state width="1557" height="281" key="GridCell.Tab.0.left" timestamp="1594338374060">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1594337239671" />
-    <state width="1557" height="199" key="GridCell.Tab.0.right" timestamp="1594337239671">
+    <state width="1557" height="281" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1594338374060" />
+    <state width="1557" height="281" key="GridCell.Tab.0.right" timestamp="1594338374062">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1594337239671" />
-    <state width="1557" height="199" key="GridCell.Tab.1.bottom" timestamp="1594337213244">
+    <state width="1557" height="281" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1594338374062" />
+    <state width="1557" height="281" key="GridCell.Tab.1.bottom" timestamp="1594338373166">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594337213244" />
-    <state width="1557" height="199" key="GridCell.Tab.1.center" timestamp="1594337213243">
+    <state width="1557" height="281" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594338373166" />
+    <state width="1557" height="281" key="GridCell.Tab.1.center" timestamp="1594338373165">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1594337213243" />
-    <state width="1557" height="199" key="GridCell.Tab.1.left" timestamp="1594337213243">
+    <state width="1557" height="281" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1594338373165" />
+    <state width="1557" height="281" key="GridCell.Tab.1.left" timestamp="1594338373165">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1594337213243" />
-    <state width="1557" height="199" key="GridCell.Tab.1.right" timestamp="1594337213244">
+    <state width="1557" height="281" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1594338373164" />
+    <state width="1557" height="281" key="GridCell.Tab.1.right" timestamp="1594338373165">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="199" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1594337213244" />
-    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1594326687240">
+    <state width="1557" height="281" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1594338373165" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1594337443256">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1594326687240" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1594337443256" />
     <state width="808" height="438" key="XDebugger.FullValuePopup" timestamp="1594330139077">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -270,37 +248,27 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java</url>
-          <line>27</line>
+          <line>30</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaRetrival.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java</url>
-          <line>82</line>
+          <line>86</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java</url>
-          <line>43</line>
+          <line>46</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java</url>
-          <line>83</line>
+          <line>81</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java</url>
-          <line>115</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java</url>
-          <line>105</line>
+          <line>103</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
