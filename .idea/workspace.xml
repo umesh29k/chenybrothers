@@ -19,11 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc1a8db9-eb7e-4a12-b9f5-bb5c8e912419" name="Default Changelist" comment="final setup for utility">
+    <list default="true" id="dc1a8db9-eb7e-4a12-b9f5-bb5c8e912419" name="Default Changelist" comment="deployment configuration cheney brothers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/rest/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/controller/rest/Utility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/script/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/script/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todo.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594337438018</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="final setup for utility">
+      <created>1594342867659</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1594342867659</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -179,7 +188,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="fixes loader and my-orphans hide" />
     <MESSAGE value="final setup for utility" />
-    <option name="LAST_COMMIT_MESSAGE" value="final setup for utility" />
+    <MESSAGE value="deployment configuration cheney brothers" />
+    <option name="LAST_COMMIT_MESSAGE" value="deployment configuration cheney brothers" />
   </component>
   <component name="WindowStateProjectService">
     <state x="605" y="122" key="#com.intellij.ide.util.MemberChooser" timestamp="1594332080071">
@@ -190,46 +200,46 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="54" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1594331267996" />
-    <state width="423" height="438" key="DebuggerActiveHint" timestamp="1594337720926">
+    <state width="423" height="438" key="DebuggerActiveHint" timestamp="1594344674858">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="423" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1594337720926" />
-    <state width="1557" height="281" key="GridCell.Tab.0.bottom" timestamp="1594338374063">
+    <state width="423" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1594344674858" />
+    <state width="1557" height="281" key="GridCell.Tab.0.bottom" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594338374063" />
-    <state width="1557" height="281" key="GridCell.Tab.0.center" timestamp="1594338374061">
+    <state width="1557" height="281" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.0.center" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1594338374061" />
-    <state width="1557" height="281" key="GridCell.Tab.0.left" timestamp="1594338374060">
+    <state width="1557" height="281" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.0.left" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1594338374060" />
-    <state width="1557" height="281" key="GridCell.Tab.0.right" timestamp="1594338374062">
+    <state width="1557" height="281" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.0.right" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1594338374062" />
-    <state width="1557" height="281" key="GridCell.Tab.1.bottom" timestamp="1594338373166">
+    <state width="1557" height="281" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.1.bottom" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594338373166" />
-    <state width="1557" height="281" key="GridCell.Tab.1.center" timestamp="1594338373165">
+    <state width="1557" height="281" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.1.center" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1594338373165" />
-    <state width="1557" height="281" key="GridCell.Tab.1.left" timestamp="1594338373165">
+    <state width="1557" height="281" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.1.left" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1594338373164" />
-    <state width="1557" height="281" key="GridCell.Tab.1.right" timestamp="1594338373165">
+    <state width="1557" height="281" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state width="1557" height="281" key="GridCell.Tab.1.right" timestamp="1594344722482">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="281" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1594338373165" />
-    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1594337443256">
+    <state width="1557" height="281" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1594344722482" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1594342869558">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1594337443256" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1594342869558" />
     <state width="808" height="438" key="XDebugger.FullValuePopup" timestamp="1594330139077">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -238,19 +248,14 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="530" y="181" key="extract.method.dialog/0.0.1600.860@0.0.1600.860" timestamp="1594328400743" />
-    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1594331984302">
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1594345328733">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1594331984302" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1594345328733" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaUtil.java</url>
           <line>86</line>
@@ -263,13 +268,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="15" />
+          <line>103</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/itpaths/artesia/dam/service/ArtesiaWorker.java</url>
-          <line>103</line>
-          <option name="timeStamp" value="17" />
+          <line>43</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -155,9 +155,9 @@ public class ArtesiaWorker {
                 }
                 String path = "";
                 for(int j=0; j<index; j++){
-                    path += root + "\\" + list.get(j);
+                    path += "\\" + list.get(j);
                 }
-                node.setPath(path);
+                node.setPath(root + path);
                 nl.add(node);
             }
         }

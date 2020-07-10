@@ -9,10 +9,10 @@ $(document).ready(function(){
     var ready = false;
     if(sessionStorage.getItem("access") != undefined){
         if(sessionStorage.getItem("access") != "allowed")
-            window.open("/","_self");
+            window.open("./","_self");
     }
     else
-        window.open("/","_self");
+        window.open("./","_self");
     $(document).bind('keypress', function(e) {
          if(e.keyCode==13 && ready){
               submit();
