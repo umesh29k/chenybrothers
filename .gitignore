@@ -1,3 +1,5 @@
-target
-.idea
-.mvn
+target/
+.idea/
+.mvn/
+gradle/
+serving-web-content.iml
