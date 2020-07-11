@@ -43,35 +43,49 @@ public class ArtesiaUtil {
         }
 
         if (dir) {
-            //prepare folders hierarchy
-            artesiaWorker.parepare(sf, utilConf.getTempDir());
-            nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+            Thread setupFoldersJob = new Thread(){
+              @Override
+              public void run(){
+                  //prepare folders hierarchy
+                  artesiaWorker.parepare(sf, utilConf.getTempDir());
+              }
+            };
+            setupFoldersJob.setName("setup-folders");
+            setupFoldersJob.start();
+
             //creating folder heierarchy
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getPrep(), sfolder, dfolder));
-            System.out.println(MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder) + "\n");
-            processBuilder.directory(new File(utilConf.getPrPath()));
-            Process process = null;
-            try {
-                process = processBuilder.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-            String line = "";
-            data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : Creating folders hierarchy\n");
-            while (true) {
-                try {
-                    if (!((line = reader.readLine()) != null)) break;
-                } catch (IOException e) {
-                    e.printStackTrace();
+            String createFolders = MessageFormat.format(utilConf.getPrep(), sfolder, dfolder);
+            Task createFolderJob = new Task(createFolders);
+            //folder hierarchy created
+
+            Thread initiateImport = new Thread() {
+                @Override
+                public void run() {
+                    Thread getNodesJob = new Thread(){
+                        @Override
+                        public void run(){
+                            nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+                        }
+                    };
+                    getNodesJob.start();
+
+                    try {
+                        setupFoldersJob.join();
+                        createFolderJob.start();
+                        createFolderJob.join();
+                        getNodesJob.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    ImportJob importJob = new ImportJob();
+                    importJob.start();
                 }
-                data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + line + "\n");
-            }
+            };
+
+            initiateImport.start();
             output.append("Job placed successfully. ");
-            Ope ope = new Ope();
-            ope.start();
+
         } else {
             error.append("Invalid input.");
         }
@@ -79,7 +93,48 @@ public class ArtesiaUtil {
         return response;
     }
 
-    public class Ope extends Thread {
+    private void intiateTask(String command) {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command("cmd", "/c", command);
+        System.out.println(MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder) + "\n");
+        processBuilder.directory(new File(utilConf.getPrPath()));
+        Process process = null;
+        try {
+            process = processBuilder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getProcessDetails(process);
+    }
+
+    private void getProcessDetails(Process process) {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()));
+        String line = "";
+        data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : Creating folders hierarchy\n");
+        while (true) {
+            try {
+                if (!((line = reader.readLine()) != null)) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + line + "\n");
+        }
+    }
+
+    public class Task extends Thread {
+        private String command;
+
+        public Task(String command) {
+            this.command = command;
+        }
+
+        public void run() {
+            intiateTask(command);
+        }
+    }
+
+    public class ImportJob extends Thread {
         /**
          * lets create .lck file in the bulk utility folder, however the log file will be crated into the cbutil webapp folder, where we kept folder.properties file too
          */
@@ -96,29 +151,27 @@ public class ArtesiaUtil {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
-                            ProcessBuilder processBuilder = new ProcessBuilder();
-                            processBuilder.command("cmd", "/c", MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey()));
-                            System.out.println(MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey()) + "\n");
-                            processBuilder.directory(new File(utilConf.getImPath()));
-                            Process process = processBuilder.start();
-                            BufferedReader reader = new BufferedReader(
-                                    new InputStreamReader(process.getInputStream()));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                data.append(sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + line + "\n");
-                            }
-                            int exitVal = process.waitFor();
-                            if (exitVal == 0) {
-                                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Import job initiated for folder [ " + node.getParent() + "/" + node.getName() + " ]");
-                            } else {
-                                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + "Import job failed to initiate for folder [ " + node.getParent() + "/" + node.getName() + " ], Something went wrong, fore more details, please check logs!");
-                            }
+                            String importAssets = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
+                            final Task importAssetsJob = new Task(importAssets);
+                            importAssetsJob.setName("ImportAssets-" + indx);
+                            importAssetsJob.start();
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        importAssetsJob.join();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
+                                    Task createImpexJob = new Task(createImpexesCmd);
+                                    createImpexJob.setName("Import-Impex-" + indx);
+                                    createImpexJob.start();
+                                }
+                            };
                         }
                     }
                 } catch (IOException e) {
-                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                     e.printStackTrace();
                 }
@@ -126,13 +179,23 @@ public class ArtesiaUtil {
                 data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                 e.printStackTrace();
             } finally {
-                artesiaWorker.cleanup(utilConf.getTempDir());
+
+                Thread cleanupJob = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        artesiaWorker.cleanup(utilConf.getTempDir());
+                    }
+                });
+                cleanupJob.setName("cleanup");
+                cleanupJob.start();
+
                 try {
                     lockw.close();
                 } catch (Exception e) {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + "No lock found");
                 }
                 lock.delete();
+
                 data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is removed");
                 BufferedWriter bw = null;
                 FileWriter fw = null;
@@ -161,7 +224,6 @@ public class ArtesiaUtil {
                     }
                 }
             }
-
         }
     }
 }

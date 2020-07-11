@@ -1,29 +1,46 @@
 package com.itpaths.artesia.dam.service;
 
-import com.itpaths.artesia.dam.model.Node;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itpaths.artesia.dam.component.UtilConf;
+import com.itpaths.artesia.dam.model.Node;
+import com.itpaths.artesia.dam.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 import static org.apache.tomcat.util.http.fileupload.FileUtils.deleteDirectory;
 
 @Service
 public class ArtesiaWorker {
+    @Autowired
+    private UtilConf utilConf;
     Set<String> ids = new HashSet<>();
+
     public void parepare(String source, String dest) {
         List<File> files = new ArrayList<>();
-        listFiles(source, files);
+        listFolders(source, files);
         for (File f : files) {
             String npth = f.getAbsolutePath();
             new File(npth.replace(source, dest)).mkdir();
+        }
+    }
+
+    public void createAssetProperties(String source, String dest) {
+        List<File> files = new ArrayList<>();
+        listFolders(source, files);
+        for (File f : files) {
+            String npth = f.getAbsolutePath();
+            new File(npth.replace(source, dest)).mkdir();
+
         }
     }
 
@@ -44,7 +61,7 @@ public class ArtesiaWorker {
         HashMap<Integer, List<Node>> map = new HashMap<>();
         JsonArray allFolders = new JsonArray();
         List<File> files = new ArrayList<>();
-        listFiles(rpth, files);
+        listFolders(rpth, files);
         List<List<String>> dlist = new ArrayList<>();
         for (File f : files) {
             String[] pth = null;
@@ -129,11 +146,16 @@ public class ArtesiaWorker {
         ArtesiaWorker test = new ArtesiaWorker();
         String fId = "eb455368d104f30c4785f2c864cbf04ca0449473";
         String rpth = "E:\\ncert books";
-        test.mapFolders(fId, rpth, new ArtesiaRetrival());
+
+        List<File> files = new ArrayList<>();
+        Map<File, List<File>> map = test.listFiles(rpth, files);
+        prepareAIConfFile(listFiles(rpth, files), "hybrissystemid");
+        map.size();
     }
 
     /**
      * setup map from list of folders in node format
+     *
      * @param dlist
      * @param nodes
      * @param index
@@ -154,7 +176,7 @@ public class ArtesiaWorker {
                     node.setParent(new Node());
                 }
                 String path = "";
-                for(int j=0; j<index; j++){
+                for (int j = 0; j < index; j++) {
                     path += "\\" + list.get(j);
                 }
                 node.setPath(root + path);
@@ -164,16 +186,112 @@ public class ArtesiaWorker {
         nodes.put(index, nl);
     }
 
-    public static void listFiles(String directoryName, List<File> files) {
+    public static void listFolders(String directoryName, List<File> files) {
         File directory = new File(directoryName);
         File[] fList = directory.listFiles();
         if (fList != null)
             for (File file : fList) {
                 if (file.isDirectory()) {
                     files.add(file);
-                    listFiles(file.getAbsolutePath(), files);
+                    listFolders(file.getAbsolutePath(), files);
                 }
             }
     }
 
+    public static Map<File, List<File>> listFiles(String directoryName, List<File> files) {
+        Map<File, List<File>> pathMapper = new HashMap<>();
+        listFolders(directoryName, files);
+        for (File folder : files) {
+            for (File file : folder.listFiles()) {
+                if (file.isFile()) {
+                    if (pathMapper.get(folder) == null) {
+                        List<File> list = new ArrayList<>();
+                        list.add(file);
+                        pathMapper.put(folder, list);
+                    } else {
+                        pathMapper.get(folder).add(file);
+                    }
+                }
+            }
+        }
+        return pathMapper;
+    }
+
+    public static Map<String, String> prepareAIConfFile(Map<File, List<File>> mapper, String systemId) {
+        List<String> assets = new ArrayList<>();
+        StringBuilder entities = new StringBuilder();
+        Map<String, String> propMapper = new HashMap<>();
+        int indx = 1;
+        for (File folder : mapper.keySet()) {
+            StringBuilder prop = new StringBuilder();
+            if (mapper.get(folder).size() > 0) {
+                for (File path : mapper.get(folder)) {
+                    String extension = "";
+                    String mimeType = "unspecified";
+                    String name = stripExtension(path.getName());
+                    int i = path.getName().lastIndexOf('.');
+                    if (i > 0) {
+                        extension = path.getName().substring(i + 1);
+                    }
+
+                    if (extension.equalsIgnoreCase("png"))
+                        mimeType = "image_png";
+                    else if (extension.equalsIgnoreCase("jpg"))
+                        mimeType = "image_jpeg";
+                    else if (extension.equalsIgnoreCase("bmp"))
+                        mimeType = "image_bmp";
+                    else if (extension.equalsIgnoreCase("txt"))
+                        mimeType = "text_plain";
+
+                    entities.append(MessageFormat.format(Constants.entity, "asset000" + indx, path.getAbsolutePath(), mimeType));
+                    assets.add(MessageFormat.format(Constants.asset, path.getName(), name, name, name, systemId));
+                }
+            }
+
+            StringBuilder assetSb = new StringBuilder();
+            for (String asset : assets) {
+                assetSb.append(asset);
+            }
+
+            String header = MessageFormat.format(Constants.header, entities);
+            String assetsNode = MessageFormat.format(Constants.body, assetSb);
+            prop.append(header);
+            prop.append(assetsNode);
+            propMapper.put(folder.getAbsolutePath(), prop.toString());
+
+            createFile(folder.getAbsolutePath() + File.separator + "assetProperties.xml", prop.toString());
+        }
+        return propMapper;
+    }
+
+    public static String stripExtension(String str) {
+        // Handle null case specially.
+        if (str == null) return null;
+        // Get position of last '.'.
+        int pos = str.lastIndexOf(".");
+        // If there wasn't any '.' just return the string as is.
+        if (pos == -1) return str;
+        // Otherwise return the string, up to the dot.
+        return str.substring(0, pos);
+    }
+
+    public static boolean createFile(String fileName, String contents) {
+        boolean status = false;
+        try {
+            File myObj = new File(fileName);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+            FileWriter myWriter = new FileWriter(fileName);
+            myWriter.write(contents);
+            myWriter.close();
+            status = true;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return status;
+    }
 }
