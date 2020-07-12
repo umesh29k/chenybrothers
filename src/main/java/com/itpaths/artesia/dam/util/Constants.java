@@ -3,8 +3,8 @@ package com.itpaths.artesia.dam.util;
 public class Constants {
     public static final String URL = "http://ot-dam-dev.cheneybrothers.com:11090/otmmapi/v5/";
     public static String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-            "<!DOCTYPE TEAMS_ASSET_FILE PUBLIC \"-//TEAMS//DTD asset and link file//EN\"" +
-            "\"Tasset.dtd\"" +
+            "<!DOCTYPE TEAMS_ASSET_FILE PUBLIC \"-//TEAMS//DTD asset and link file//EN\" " +
+            "\"Tasset.dtd\" " +
             "[" +
             "{0}" +
             "]>";

@@ -222,10 +222,10 @@ public class ArtesiaWorker {
         List<String> assets = new ArrayList<>();
         StringBuilder entities = new StringBuilder();
         Map<String, String> propMapper = new HashMap<>();
-        int indx = 1;
         for (File folder : mapper.keySet()) {
             StringBuilder prop = new StringBuilder();
             if (mapper.get(folder).size() > 0) {
+                int indx = 1;
                 for (File path : mapper.get(folder)) {
                     String extension = "";
                     String mimeType = "unspecified";
@@ -244,8 +244,8 @@ public class ArtesiaWorker {
                     else if (extension.equalsIgnoreCase("txt"))
                         mimeType = "text_plain";
 
-                    entities.append(MessageFormat.format(Constants.entity, "asset000" + indx, path.getAbsolutePath(), mimeType));
-                    assets.add(MessageFormat.format(Constants.asset, path.getName(), name, name, name, systemId));
+                    entities.append(MessageFormat.format(Constants.entity, "asset000" + indx++, path.getAbsolutePath(), mimeType));
+                    assets.add(MessageFormat.format(Constants.asset, path.getName(), name, name, name, systemId, "asset000" + indx++));
                 }
             }
 
