@@ -72,7 +72,11 @@ public class ArtesiaUtil {
             Thread getMappedFoldersJob = new Thread(){
                 @Override
                 public void run(){
-                    wait(1);
+                    try {
+                        wait(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     data.append("\nCreating folders to temp location");
                     nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
                     data.append(nodes);
