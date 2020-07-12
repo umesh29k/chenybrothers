@@ -64,7 +64,7 @@ public class ArtesiaUtil {
 
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
-            Task createFolderJob = new Task(createFolders);
+            Task createFolderJob = new Task(createFolders, utilConf.getPrPath());
             //folder hierarchy created
             createFolderJob.start();
             wait(1);
@@ -127,6 +127,43 @@ public class ArtesiaUtil {
         return response;
     }
 
+    public String impex(String df, String sf) {
+        this.dfolder = df;
+        this.sfolder = sf;
+        Thread getMappedFoldersJob = new Thread() {
+            @Override
+            public void run() {
+                data.append("\nCreating folders to temp location");
+                nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+                data.append(nodes);
+                data.append("\nFolders created successfully!");
+                //create assetProperties files
+            }
+        };
+        getMappedFoldersJob.start();
+
+        Thread jobManager = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    getMappedFoldersJob.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                data.append("\nMapper activity is done");
+
+                ImpexJob impexJob = new ImpexJob();
+                impexJob.start();
+                //create assetProperties files
+            }
+        };
+        jobManager.start();
+
+        output.append("Job placed successfully. ");
+        String response = "{\"output\": \"" + output.toString().replaceAll("\b", "/") + "\", \"error\": \"" + error + "\" }";
+        return response;
+    }
+
     private void wait(int count) {
         try {
             TimeUnit.MINUTES.sleep(count);
@@ -140,11 +177,11 @@ public class ArtesiaUtil {
      *
      * @param command
      */
-    private void intiateTask(String command) {
+    private void intiateTask(String command, String path) {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("cmd", "/c", command);
         System.out.println(command + "\n");
-        processBuilder.directory(new File(utilConf.getPrPath()));
+        processBuilder.directory(new File(path));
         processBuilder.inheritIO();
         Process process = null;
         try {
@@ -177,13 +214,15 @@ public class ArtesiaUtil {
 
     public class Task extends Thread {
         private String command;
+        private String path;
 
-        public Task(String command) {
+        public Task(String command, String path) {
             this.command = command;
+            this.path = path;
         }
 
         public void run() {
-            intiateTask(command);
+            intiateTask(command, path);
         }
     }
 
@@ -214,25 +253,14 @@ public class ArtesiaUtil {
                         for (Node node : nodes.get(indx)) {
                             data.append("\nImport job for [" + node.getName() + "] initiated");
                             final String importAssets = MessageFormat.format(utilConf.getAiPrep(), node.getPath().replace(sfolder, utilConf.getTempDir()), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
-                            final Task importAssetsJob = new Task(importAssets);
+                            final Task importAssetsJob = new Task(importAssets, utilConf.getPrPath());
                             importAssetsJob.setName("ImportAssets-" + sdf.format(new Timestamp(System.currentTimeMillis())));
                             importAssetsJob.start();
-                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        importAssetsJob.join();
-                                        data.append("\nImport job for [" + node.getName() + "] completed");
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Task createImpexJob = new Task(createImpexesCmd);
-                                    createImpexJob.setName("Import-Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
-                                    data.append("\nImpex job initiated for [" + node.getName() + "] initiated");
-                                    createImpexJob.start();
-                                }
-                            };
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             findx++;
                         }
                     }
@@ -253,29 +281,90 @@ public class ArtesiaUtil {
                 data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is removed");
                 BufferedWriter bw = null;
                 FileWriter fw = null;
-
                 try {
-                    // if file doesnt exists, then create it
-                    if (!file.exists()) {
-                        file.createNewFile();
-                    }
-                    // true = append file
                     fw = new FileWriter(file.getAbsoluteFile(), true);
                     bw = new BufferedWriter(fw);
                     bw.write(data.toString());
+                    if (bw != null)
+                        bw.close();
+                    if (fw != null)
+                        fw.close();
                 } catch (IOException e) {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                     e.printStackTrace();
-                } finally {
-                    try {
-                        if (bw != null)
-                            bw.close();
-                        if (fw != null)
-                            fw.close();
-                    } catch (IOException ex) {
-                        data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + ex.getMessage());
-                        ex.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public class ImpexJob extends Thread {
+        /**
+         * lets create .lck file in the bulk utility folder, however the log file will be crated into the cbutil webapp folder, where we kept folder.properties file too
+         */
+        public void run() {
+            int i = 0;
+            File lock = null;
+            File file = new File(utilConf.getLog());
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            FileWriter lockw = null;
+            try {
+                try {
+                    lock = new File(sfolder + "\\.lck");
+                    lock.createNewFile();
+                    lockw = new FileWriter(lock.getAbsoluteFile(), true);
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
+                    int findx = 1;
+                    for (int indx : nodes.keySet()) {
+                        for (Node node : nodes.get(indx)) {
+                            data.append("\nImpex job for [" + node.getName() + "] initiated");
+                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
+                            Task createImpexJob = new Task(createImpexesCmd, utilConf.getImPath());
+                            createImpexJob.setName("Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
+                            data.append("\nImpex job initiated for [" + node.getName() + "] initiated");
+                            createImpexJob.start();
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            findx++;
+                        }
                     }
+                } catch (IOException e) {
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                try {
+                    lockw.close();
+                } catch (Exception e) {
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + "No lock found");
+                }
+                lock.delete();
+                data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is removed");
+                BufferedWriter bw = null;
+                FileWriter fw = null;
+                try {
+                    fw = new FileWriter(file.getAbsoluteFile(), true);
+                    bw = new BufferedWriter(fw);
+                    bw.write(data.toString());
+                    if (bw != null)
+                        bw.close();
+                    if (fw != null)
+                        fw.close();
+                } catch (IOException e) {
+                    data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }

@@ -29,5 +29,10 @@ public class Utility {
         return "output";
     }
 
-
+    @RequestMapping(value = "/impex", method = RequestMethod.POST)
+    @ResponseBody
+    public String getImpexs(@RequestParam(name="dfolder") String df, @RequestParam(name="sfolder") String sf) {
+        String output = damUtil.impex(df, sf);
+        return output;
+    }
 }

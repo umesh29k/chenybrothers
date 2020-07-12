@@ -7,6 +7,9 @@ document.write(unescape("%3Cscript src='script/popper.min.js' type='text/javascr
 var zNodes =[{ id:"1001N", name:"Loading..", open:true}];
 $(document).ready(function(){
     var ready = false;
+    $(".impexBtn").click(function(){
+        impex();
+    });
     if(sessionStorage.getItem("access") != undefined){
         if(sessionStorage.getItem("access") != "allowed")
             window.open("./","_self");
@@ -70,6 +73,31 @@ function submit(){
        $.ajax({
           method: "POST",
           url: "util",
+          data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
+        })
+        .done(function( msg ) {
+            $(".err").html(JSON.parse(msg).error);
+            $(".success").html(JSON.parse(msg).output);
+            sessionStorage.clear();
+            $(".loader").hide();
+        });
+    }
+}
+function impex(){
+    if($($("input[type='text']")[0]).val() == "")
+        $(".err").html("Destination location empty!");
+    else
+    if($($("input[name='dhfolder']")).val() == "")
+        $(".err").html("Upload to 'My Folder' not allowed");
+    else if($($("input[type='text']")[1]).val() == "")
+        $(".err").html("Source location empty!");
+    else{
+       $(".err").html("");
+       $(".success").html("");
+       $(".loader").show();
+       $.ajax({
+          method: "POST",
+          url: "util/impex",
           data: { dfolder: $("input[name='dhfolder']").val(), sfolder: $("input[name='sfolder']").val() }
         })
         .done(function( msg ) {
