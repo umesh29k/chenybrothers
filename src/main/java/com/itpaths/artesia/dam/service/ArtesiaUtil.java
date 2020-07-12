@@ -130,36 +130,55 @@ public class ArtesiaUtil {
     public String impex(String df, String sf) {
         this.dfolder = df;
         this.sfolder = sf;
-        Thread getMappedFoldersJob = new Thread() {
-            @Override
-            public void run() {
-                data.append("\nCreating folders to temp location");
-                nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
-                data.append(nodes);
-                data.append("\nFolders created successfully!");
-                //create assetProperties files
-            }
-        };
-        getMappedFoldersJob.start();
 
-        Thread jobManager = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    getMappedFoldersJob.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        boolean dir = false;
+        this.dfolder = df;
+        this.sfolder = sf;
+        File sdir = null;
+        try {
+            sdir = new File(sf);
+            if (sdir.isDirectory())
+                dir = true;
+            else
+                error.append("Invalid source folder. ");
+        } catch (Exception e) {
+            error.append("Invalid source folder. ");
+        }
+
+        if (dir) {
+            Thread getMappedFoldersJob = new Thread() {
+                @Override
+                public void run() {
+                    data.append("\nCreating folders to temp location");
+                    nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+                    data.append(nodes);
+                    data.append("\nFolders created successfully!");
+                    //create assetProperties files
                 }
-                data.append("\nMapper activity is done");
+            };
+            getMappedFoldersJob.start();
 
-                ImpexJob impexJob = new ImpexJob();
-                impexJob.start();
-                //create assetProperties files
-            }
-        };
-        jobManager.start();
+            Thread jobManager = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        getMappedFoldersJob.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    data.append("\nMapper activity is done");
 
-        output.append("Job placed successfully. ");
+                    ImpexJob impexJob = new ImpexJob();
+                    impexJob.start();
+                    //create assetProperties files
+                }
+            };
+            jobManager.start();
+
+            output.append("Job placed successfully. ");
+        } else {
+            error.append("Invalid input.");
+        }
         String response = "{\"output\": \"" + output.toString().replaceAll("\b", "/") + "\", \"error\": \"" + error + "\" }";
         return response;
     }
@@ -324,9 +343,9 @@ public class ArtesiaUtil {
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
                             data.append("\nImpex job for [" + node.getName() + "] initiated");
-                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
+                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
                             File output = new File(sfolder + File.separator + "impex");
-                            if(!output.exists())
+                            if (!output.exists())
                                 output.mkdir();
                             Task createImpexJob = new Task(createImpexesCmd, output.getAbsolutePath());
                             createImpexJob.setName("Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
