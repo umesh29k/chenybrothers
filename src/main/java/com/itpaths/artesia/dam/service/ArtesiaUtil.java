@@ -66,13 +66,13 @@ public class ArtesiaUtil {
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
             Task createFolderJob = new Task(createFolders);
-            wait(1);
             //folder hierarchy created
             createFolderJob.start();
 
             Thread getMappedFoldersJob = new Thread(){
                 @Override
                 public void run(){
+                    wait(1);
                     data.append("\nCreating folders to temp location");
                     nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
                     data.append(nodes);
