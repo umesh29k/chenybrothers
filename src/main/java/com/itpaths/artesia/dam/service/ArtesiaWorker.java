@@ -26,7 +26,7 @@ public class ArtesiaWorker {
     Set<String> ids = new HashSet<>();
 
     public void prepare(String source, String dest) {
-
+        cleanup(dest);
         List<File> files = new ArrayList<>();
         listFolders(source, files);
         for (File f : files) {
