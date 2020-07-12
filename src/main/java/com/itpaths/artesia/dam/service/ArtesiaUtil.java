@@ -261,8 +261,8 @@ public class ArtesiaUtil {
                 List<String> cmdList = new ArrayList<String>();
                 cmdList.add("cmd");
                 cmdList.add("/c");
-                cmdList.add("cd \"" + path + "\"");
-                cmdList.add(command);
+                cmdList.add(path.split(":")[0] + ": && cd \"" + path + "\" && " + command);
+                System.out.println(path.split(":")[0] + ": && cd \"" + path + "\" && " + command);
                 ProcessBuilder pb = new ProcessBuilder();
                 pb.command(cmdList);
                 Process p = pb.start();
