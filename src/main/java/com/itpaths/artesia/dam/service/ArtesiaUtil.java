@@ -68,15 +68,10 @@ public class ArtesiaUtil {
             Task createFolderJob = new Task(createFolders);
             //folder hierarchy created
             createFolderJob.start();
-
+            wait(1);
             Thread getMappedFoldersJob = new Thread(){
                 @Override
                 public void run(){
-                    try {
-                        wait(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     data.append("\nCreating folders to temp location");
                     nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
                     data.append(nodes);
@@ -85,7 +80,7 @@ public class ArtesiaUtil {
                 }
             };
             getMappedFoldersJob.start();
-
+            wait(1);
             Thread initiateImport = new Thread() {
                 @Override
                 public void run() {
@@ -105,6 +100,11 @@ public class ArtesiaUtil {
                             data.append("\nGet folders mapping folders to temp location");
                             data.append("\nSetup assetProperties to temp location");
                             artesiaWorker.prepareAIConfFile(artesiaWorker.listFiles(sf, new ArrayList<>()), "hybrissystemid", utilConf.getTempDir(), sf);
+                            try {
+                                TimeUnit.MINUTES.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     };
                     getNodesJob.start();
@@ -194,10 +194,16 @@ public class ArtesiaUtil {
             int i = 0;
             File lock = null;
             File file = new File(sfolder + "\\job-status.log");
+            if(!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             FileWriter lockw = null;
             try {
                 try {
-                    wait(1);
                     lock = new File(sfolder + "\\.lck");
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
@@ -241,7 +247,6 @@ public class ArtesiaUtil {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + "No lock found");
                 }
                 lock.delete();
-
                 data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is removed");
                 BufferedWriter bw = null;
                 FileWriter fw = null;

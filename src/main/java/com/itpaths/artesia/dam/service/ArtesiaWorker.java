@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.itpaths.artesia.dam.component.UtilConf;
 import com.itpaths.artesia.dam.model.Node;
 import com.itpaths.artesia.dam.util.Constants;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,12 @@ public class ArtesiaWorker {
     Set<String> ids = new HashSet<>();
 
     public void prepare(String source, String dest) {
-        cleanup(dest);
+        //cleanup(dest);
+        try {
+            FileUtils.forceDelete(new File(dest));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         List<File> files = new ArrayList<>();
         listFolders(source, files);
         for (File f : files) {
