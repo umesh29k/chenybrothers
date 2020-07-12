@@ -111,6 +111,7 @@ public class ArtesiaUtil {
         processBuilder.command("cmd", "/c", command);
         System.out.println(command + "\n");
         processBuilder.directory(new File(utilConf.getPrPath()));
+        processBuilder.inheritIO();
         Process process = null;
         try {
             process = processBuilder.start();
