@@ -246,35 +246,6 @@ public class ArtesiaUtil {
         }
     }
 
-    public class ImpexTask extends Thread {
-        private String command;
-        private String path;
-
-        public ImpexTask(String command, String path) {
-            this.command = command;
-            this.path = path;
-        }
-
-        @Override
-        public void run() {
-            try {
-                List<String> cmdList = new ArrayList<String>();
-                cmdList.add("cmd");
-                cmdList.add("/c");
-                cmdList.add(path.split(":")[0] + ": && cd \"" + path + "\" && " + command);
-                System.out.println(path.split(":")[0] + ": && cd \"" + path + "\" && " + command);
-                ProcessBuilder pb = new ProcessBuilder();
-                pb.command(cmdList);
-                Process p = pb.start();
-                p.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        p.getInputStream()));
-                getProcessDetails(p);
-            } catch (Exception e) {
-            }
-        }
-    }
-
     public class ImportJob extends Thread {
         /**
          * lets create .lck file in the bulk utility folder, however the log file will be crated into the cbutil webapp folder, where we kept folder.properties file too
@@ -372,13 +343,13 @@ public class ArtesiaUtil {
                     int findx = 1;
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
-                            data.append("\nImpex job for [" + node.getName() + "] initiated");
-                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
-                            data.append("Impex: " + createImpexesCmd);
                             File output = new File(sfolder + File.separator + "impex");
                             if (!output.exists())
                                 output.mkdir();
-                            ImpexTask createImpexJob = new ImpexTask(createImpexesCmd, output.getAbsolutePath());
+                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), output.getAbsolutePath().split(":")[0], output.getAbsolutePath(), node.getKey(), "\"" + sdf.format(new Timestamp(System.currentTimeMillis())) + "\"");
+                            Task createImpexJob = new Task(createImpexesCmd, output.getAbsolutePath());
+                            data.append("\nImpex job for [" + node.getName() + "] initiated");
+                            data.append("Impex: " + createImpexesCmd);
                             createImpexJob.setName("Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
                             createImpexJob.start();
                             try {

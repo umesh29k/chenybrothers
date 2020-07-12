@@ -3,6 +3,6 @@ impath: "D:\\OpenText\\Home\\bin\\bin\\mservlet"
 tempDir: "D:\\OpenText\\Artesia\\temp"
 prep: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir "{0}" -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > "D:\OpenText\Home\imconv\logs\cbutil\cbutil-create-logs_{2}.txt"
 aiprep: bulkimport.bat -user tsuper -password Otmm@123 -mode xml -dir "{0}" -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > "D:\OpenText\Home\imconv\logs\cbutil\cbutil-import-logs_{2}.txt"
-imprep: bulk.bat -i -folder {0} -rdset default -profile Product -impex D:\OpenText\Home\imconv\conf\impex.properties -url http://localhost:11090/ot-damlink/ImConvServlet > "D:\OpenText\Home\imconv\logs\cbutil\cbutil-impex-logs_{1}.txt"
+imprep: run.bat {0} {1} {2} {3}
 log: D:\OpenText\Home\imconv\logs\cbutil\job-status.log
 data: dHN1cGVyO090bW1AMTIz
