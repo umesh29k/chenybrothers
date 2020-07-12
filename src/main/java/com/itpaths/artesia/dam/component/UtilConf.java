@@ -25,6 +25,8 @@ public class UtilConf {
     private String data;
     @Value(("${tempDir}"))
     private String tempDir;
+    @Value("${aiprep")
+    private String aiPrep;
 
     public String getLog() {
         return log;
@@ -81,5 +83,13 @@ public class UtilConf {
 
     public void setImPath(String imPath) {
         this.imPath = imPath;
+    }
+
+    public String getAiPrep() {
+        return aiPrep;
+    }
+
+    public void setAiPrep(String aiPrep) {
+        this.aiPrep = aiPrep;
     }
 }

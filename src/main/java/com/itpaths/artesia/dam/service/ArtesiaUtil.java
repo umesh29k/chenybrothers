@@ -9,6 +9,7 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,12 @@ public class ArtesiaUtil {
     private StringBuilder data = new StringBuilder();
     private Map<Integer, List<Node>> nodes;
 
+    /**
+     *
+     * @param df
+     * @param sf
+     * @return
+     */
     public String status(String df, String sf) {
         boolean dir = false;
         this.dfolder = df;
@@ -43,41 +50,43 @@ public class ArtesiaUtil {
         }
 
         if (dir) {
-            Thread setupFoldersJob = new Thread(){
-              @Override
-              public void run(){
-                  //prepare folders hierarchy
-                  artesiaWorker.parepare(sf, utilConf.getTempDir());
-              }
-            };
-            setupFoldersJob.setName("setup-folders");
-            setupFoldersJob.start();
+            //prepare folders hierarchy
+            System.out.println("Creating folders to temp location");
+            artesiaWorker.prepare(sf, utilConf.getTempDir());
+            System.out.println("Folders created successfully!");
+            //create assetProperties files
 
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), sfolder, dfolder);
             Task createFolderJob = new Task(createFolders);
             //folder hierarchy created
-
+            createFolderJob.start();
             Thread initiateImport = new Thread() {
                 @Override
                 public void run() {
                     Thread getNodesJob = new Thread(){
                         @Override
                         public void run(){
+                            try {
+                                System.out.println("Setup folders job done");
+                                createFolderJob.join();
+                                System.out.println("Create folders job done");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("Get folders mapping folders to temp location");
                             nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+                            System.out.println(nodes);
+                            System.out.println("Setup assetProperties to temp location");
+                            artesiaWorker.prepareAIConfFile(artesiaWorker.listFiles(sf, new ArrayList<>()), "hybrissystemid", utilConf.getTempDir(), sf);
                         }
                     };
                     getNodesJob.start();
-
                     try {
-                        setupFoldersJob.join();
-                        createFolderJob.start();
-                        createFolderJob.join();
                         getNodesJob.join();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                     ImportJob importJob = new ImportJob();
                     importJob.start();
                 }
@@ -93,10 +102,14 @@ public class ArtesiaUtil {
         return response;
     }
 
+    /**
+     * initiate a job
+     * @param command
+     */
     private void intiateTask(String command) {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("cmd", "/c", command);
-        System.out.println(MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder) + "\n");
+        System.out.println(command + "\n");
         processBuilder.directory(new File(utilConf.getPrPath()));
         Process process = null;
         try {
@@ -107,6 +120,10 @@ public class ArtesiaUtil {
         getProcessDetails(process);
     }
 
+    /**
+     * log process details
+     * @param process
+     */
     private void getProcessDetails(Process process) {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
@@ -151,7 +168,8 @@ public class ArtesiaUtil {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
-                            String importAssets = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
+                            System.out.println("Import job for [" + node.getName() + "] initiated");
+                            String importAssets = MessageFormat.format(utilConf.getAiPrep(), node.getPath().replace(sfolder, utilConf.getTempDir()), node.getKey());
                             final Task importAssetsJob = new Task(importAssets);
                             importAssetsJob.setName("ImportAssets-" + indx);
                             importAssetsJob.start();
@@ -160,12 +178,14 @@ public class ArtesiaUtil {
                                 public void run() {
                                     try {
                                         importAssetsJob.join();
+                                        System.out.println("Import job for [" + node.getName() + "] completed");
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
                                     String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
                                     Task createImpexJob = new Task(createImpexesCmd);
                                     createImpexJob.setName("Import-Impex-" + indx);
+                                    System.out.println("Impex job initiated for [" + node.getName() + "] initiated");
                                     createImpexJob.start();
                                 }
                             };

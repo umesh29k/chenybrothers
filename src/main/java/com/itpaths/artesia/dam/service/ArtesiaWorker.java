@@ -25,7 +25,8 @@ public class ArtesiaWorker {
     private UtilConf utilConf;
     Set<String> ids = new HashSet<>();
 
-    public void parepare(String source, String dest) {
+    public void prepare(String source, String dest) {
+
         List<File> files = new ArrayList<>();
         listFolders(source, files);
         for (File f : files) {
@@ -40,7 +41,6 @@ public class ArtesiaWorker {
         for (File f : files) {
             String npth = f.getAbsolutePath();
             new File(npth.replace(source, dest)).mkdir();
-
         }
     }
 
@@ -146,10 +146,11 @@ public class ArtesiaWorker {
         ArtesiaWorker test = new ArtesiaWorker();
         String fId = "eb455368d104f30c4785f2c864cbf04ca0449473";
         String rpth = "E:\\ncert books";
-
+        String location = "E:\\temp";
         List<File> files = new ArrayList<>();
+        new ArtesiaWorker().prepare(rpth, location);
         Map<File, List<File>> map = test.listFiles(rpth, files);
-        prepareAIConfFile(listFiles(rpth, files), "hybrissystemid");
+        test.prepareAIConfFile(test.listFiles(rpth, files), "hybrissystemid", location, rpth);
         map.size();
     }
 
@@ -160,7 +161,7 @@ public class ArtesiaWorker {
      * @param nodes
      * @param index
      */
-    public static void summarize(List<List<String>> dlist, HashMap<Integer, List<Node>> nodes, int index, String root) {
+    public void summarize(List<List<String>> dlist, HashMap<Integer, List<Node>> nodes, int index, String root) {
         List<Node> nl = new ArrayList<>();
         for (List<String> list : dlist) {
             if (list.size() == index) {
@@ -186,7 +187,7 @@ public class ArtesiaWorker {
         nodes.put(index, nl);
     }
 
-    public static void listFolders(String directoryName, List<File> files) {
+    public void listFolders(String directoryName, List<File> files) {
         File directory = new File(directoryName);
         File[] fList = directory.listFiles();
         if (fList != null)
@@ -198,7 +199,7 @@ public class ArtesiaWorker {
             }
     }
 
-    public static Map<File, List<File>> listFiles(String directoryName, List<File> files) {
+    public Map<File, List<File>> listFiles(String directoryName, List<File> files) {
         Map<File, List<File>> pathMapper = new HashMap<>();
         listFolders(directoryName, files);
         for (File folder : files) {
@@ -217,7 +218,7 @@ public class ArtesiaWorker {
         return pathMapper;
     }
 
-    public static Map<String, String> prepareAIConfFile(Map<File, List<File>> mapper, String systemId) {
+    public Map<String, String> prepareAIConfFile(Map<File, List<File>> mapper, String systemId, String location, String rpth) {
         List<String> assets = new ArrayList<>();
         StringBuilder entities = new StringBuilder();
         Map<String, String> propMapper = new HashMap<>();
@@ -259,7 +260,7 @@ public class ArtesiaWorker {
             prop.append(assetsNode);
             propMapper.put(folder.getAbsolutePath(), prop.toString());
 
-            createFile(folder.getAbsolutePath() + File.separator + "assetProperties.xml", prop.toString());
+            createFile( folder.getAbsolutePath().replace(rpth, location) + File.separator + "assetProperties.xml", prop.toString());
         }
         return propMapper;
     }
@@ -275,7 +276,7 @@ public class ArtesiaWorker {
         return str.substring(0, pos);
     }
 
-    public static boolean createFile(String fileName, String contents) {
+    public boolean createFile(String fileName, String contents) {
         boolean status = false;
         try {
             File myObj = new File(fileName);

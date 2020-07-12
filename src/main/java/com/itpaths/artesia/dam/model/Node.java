@@ -46,4 +46,15 @@ public class Node {
     public void setPath(String path) {
         this.path = path;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "\nparent=" + parent +
+                ",\nname='" + name + '\'' +
+                ",\nindex=" + index +
+                ",\nkey='" + key + '\'' +
+                ",\npath='" + path + '\'' + '\n' +
+                '}';
+    }
 }
