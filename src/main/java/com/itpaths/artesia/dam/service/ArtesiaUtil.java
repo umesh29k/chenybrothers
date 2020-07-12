@@ -52,11 +52,16 @@ public class ArtesiaUtil {
 
         if (dir) {
             //prepare folders hierarchy
-            System.out.println("Creating folders to temp location");
-            artesiaWorker.prepare(sf, utilConf.getTempDir());
-            System.out.println("Folders created successfully!");
-            //create assetProperties files
-
+            Thread prepare = new Thread(){
+                @Override
+                public void run(){
+                    System.out.println("Creating folders to temp location");
+                    artesiaWorker.prepare(sf, utilConf.getTempDir());
+                    System.out.println("Folders created successfully!");
+                    //create assetProperties files
+                }
+            };
+            prepare.start();
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
             Task createFolderJob = new Task(createFolders);
@@ -69,6 +74,7 @@ public class ArtesiaUtil {
                         @Override
                         public void run(){
                             try {
+                                prepare.join();
                                 System.out.println("Setup folders job done");
                                 createFolderJob.join();
                                 System.out.println("Create folders job done");
