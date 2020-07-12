@@ -66,6 +66,7 @@ public class ArtesiaUtil {
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
             Task createFolderJob = new Task(createFolders);
+            wait(1);
             //folder hierarchy created
             createFolderJob.start();
 
@@ -121,6 +122,14 @@ public class ArtesiaUtil {
         }
         String response = "{\"output\": \"" + output.toString().replaceAll("\b", "/") + "\", \"error\": \"" + error + "\" }";
         return response;
+    }
+
+    private void wait(int count) {
+        try {
+            TimeUnit.MINUTES.sleep(count);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -184,7 +193,7 @@ public class ArtesiaUtil {
             FileWriter lockw = null;
             try {
                 try {
-                    TimeUnit.MINUTES.sleep(1);
+                    wait(1);
                     lock = new File(sfolder + "\\.lck");
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
