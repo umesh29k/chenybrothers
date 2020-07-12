@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ArtesiaUtil {
@@ -163,6 +164,7 @@ public class ArtesiaUtil {
             FileWriter lockw = null;
             try {
                 try {
+                    TimeUnit.MINUTES.sleep(1);
                     lock = new File(sfolder + "\\.lck");
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
@@ -200,16 +202,6 @@ public class ArtesiaUtil {
                 data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : " + e.getMessage());
                 e.printStackTrace();
             } finally {
-
-                Thread cleanupJob = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        artesiaWorker.cleanup(utilConf.getTempDir());
-                    }
-                });
-                cleanupJob.setName("cleanup");
-                cleanupJob.start();
-
                 try {
                     lockw.close();
                 } catch (Exception e) {

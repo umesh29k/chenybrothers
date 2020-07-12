@@ -244,7 +244,7 @@ public class ArtesiaWorker {
                     else if (extension.equalsIgnoreCase("txt"))
                         mimeType = "text_plain";
 
-                    entities.append(MessageFormat.format(Constants.entity, "asset000" + indx++, path.getAbsolutePath(), mimeType));
+                    entities.append(MessageFormat.format(Constants.entity, "asset000" + indx, path.getAbsolutePath(), mimeType));
                     assets.add(MessageFormat.format(Constants.asset, path.getName(), name, name, name, systemId, "asset000" + indx++));
                 }
             }
