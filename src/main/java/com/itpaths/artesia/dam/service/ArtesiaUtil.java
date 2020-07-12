@@ -344,12 +344,12 @@ public class ArtesiaUtil {
                         for (Node node : nodes.get(indx)) {
                             data.append("\nImpex job for [" + node.getName() + "] initiated");
                             final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
+                            data.append("Impex: " + createImpexesCmd);
                             File output = new File(sfolder + File.separator + "impex");
                             if (!output.exists())
                                 output.mkdir();
                             Task createImpexJob = new Task(createImpexesCmd, output.getAbsolutePath());
                             createImpexJob.setName("Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
-                            data.append("\nImpex job initiated for [" + node.getName() + "] initiated");
                             createImpexJob.start();
                             try {
                                 TimeUnit.SECONDS.sleep(5);
