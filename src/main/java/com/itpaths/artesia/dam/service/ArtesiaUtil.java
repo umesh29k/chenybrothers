@@ -55,18 +55,32 @@ public class ArtesiaUtil {
             Thread prepare = new Thread(){
                 @Override
                 public void run(){
-                    System.out.println("Creating folders to temp location");
+                    data.append("\nCreating folders to temp location");
                     artesiaWorker.prepare(sf, utilConf.getTempDir());
-                    System.out.println("Folders created successfully!");
+                    data.append("\nFolders created successfully!");
                     //create assetProperties files
                 }
             };
             prepare.start();
+
             //creating folder heierarchy
             String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
             Task createFolderJob = new Task(createFolders);
             //folder hierarchy created
             createFolderJob.start();
+
+            Thread getMappedFoldersJob = new Thread(){
+                @Override
+                public void run(){
+                    data.append("\nCreating folders to temp location");
+                    nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
+                    data.append(nodes);
+                    data.append("\nFolders created successfully!");
+                    //create assetProperties files
+                }
+            };
+            getMappedFoldersJob.start();
+
             Thread initiateImport = new Thread() {
                 @Override
                 public void run() {
@@ -75,16 +89,16 @@ public class ArtesiaUtil {
                         public void run(){
                             try {
                                 prepare.join();
-                                System.out.println("Setup folders job done");
+                                data.append("\nSetup folders job done");
                                 createFolderJob.join();
-                                System.out.println("Create folders job done");
+                                data.append("\nCreate folders job done");
+                                getMappedFoldersJob.join();
+                                data.append("\nget mapped folder list");
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            System.out.println("Get folders mapping folders to temp location");
-                            nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
-                            System.out.println(nodes);
-                            System.out.println("Setup assetProperties to temp location");
+                            data.append("\nGet folders mapping folders to temp location");
+                            data.append("\nSetup assetProperties to temp location");
                             artesiaWorker.prepareAIConfFile(artesiaWorker.listFiles(sf, new ArrayList<>()), "hybrissystemid", utilConf.getTempDir(), sf);
                         }
                     };
@@ -177,7 +191,7 @@ public class ArtesiaUtil {
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
-                            System.out.println("Import job for [" + node.getName() + "] initiated");
+                            data.append("\nImport job for [" + node.getName() + "] initiated");
                             String importAssets = MessageFormat.format(utilConf.getAiPrep(), node.getPath().replace(sfolder, utilConf.getTempDir()), node.getKey());
                             final Task importAssetsJob = new Task(importAssets);
                             importAssetsJob.setName("ImportAssets-" + indx);
@@ -187,14 +201,14 @@ public class ArtesiaUtil {
                                 public void run() {
                                     try {
                                         importAssetsJob.join();
-                                        System.out.println("Import job for [" + node.getName() + "] completed");
+                                        data.append("\nImport job for [" + node.getName() + "] completed");
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
                                     String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
                                     Task createImpexJob = new Task(createImpexesCmd);
                                     createImpexJob.setName("Import-Impex-" + indx);
-                                    System.out.println("Impex job initiated for [" + node.getName() + "] initiated");
+                                    data.append("\nImpex job initiated for [" + node.getName() + "] initiated");
                                     createImpexJob.start();
                                 }
                             };
