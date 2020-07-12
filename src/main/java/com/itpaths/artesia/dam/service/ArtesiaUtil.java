@@ -30,7 +30,6 @@ public class ArtesiaUtil {
     private Map<Integer, List<Node>> nodes;
 
     /**
-     *
      * @param df
      * @param sf
      * @return
@@ -52,9 +51,9 @@ public class ArtesiaUtil {
 
         if (dir) {
             //prepare folders hierarchy
-            Thread prepare = new Thread(){
+            Thread prepare = new Thread() {
                 @Override
-                public void run(){
+                public void run() {
                     data.append("\nCreating folders to temp location");
                     artesiaWorker.prepare(sf, utilConf.getTempDir());
                     data.append("\nFolders created successfully!");
@@ -69,9 +68,9 @@ public class ArtesiaUtil {
             //folder hierarchy created
             createFolderJob.start();
             wait(1);
-            Thread getMappedFoldersJob = new Thread(){
+            Thread getMappedFoldersJob = new Thread() {
                 @Override
-                public void run(){
+                public void run() {
                     data.append("\nCreating folders to temp location");
                     nodes = artesiaWorker.mapFolders(dfolder, sfolder, artesiaRetrival);
                     data.append(nodes);
@@ -84,9 +83,9 @@ public class ArtesiaUtil {
             Thread initiateImport = new Thread() {
                 @Override
                 public void run() {
-                    Thread getNodesJob = new Thread(){
+                    Thread getNodesJob = new Thread() {
                         @Override
-                        public void run(){
+                        public void run() {
                             try {
                                 prepare.join();
                                 data.append("\nSetup folders job done");
@@ -138,6 +137,7 @@ public class ArtesiaUtil {
 
     /**
      * initiate a job
+     *
      * @param command
      */
     private void intiateTask(String command) {
@@ -157,6 +157,7 @@ public class ArtesiaUtil {
 
     /**
      * log process details
+     *
      * @param process
      */
     private void getProcessDetails(Process process) {
@@ -194,7 +195,7 @@ public class ArtesiaUtil {
             int i = 0;
             File lock = null;
             File file = new File(utilConf.getLog());
-            if(!file.exists()) {
+            if (!file.exists()) {
                 try {
                     file.createNewFile();
                 } catch (IOException e) {
@@ -208,13 +209,15 @@ public class ArtesiaUtil {
                     lock.createNewFile();
                     lockw = new FileWriter(lock.getAbsoluteFile(), true);
                     data.append("\n" + sdf.format(new Timestamp(System.currentTimeMillis())) + " : Lock file is crated");
+                    int findx = 1;
                     for (int indx : nodes.keySet()) {
                         for (Node node : nodes.get(indx)) {
                             data.append("\nImport job for [" + node.getName() + "] initiated");
-                            String importAssets = MessageFormat.format(utilConf.getAiPrep(), node.getPath().replace(sfolder, utilConf.getTempDir()), node.getKey());
+                            final String importAssets = MessageFormat.format(utilConf.getAiPrep(), node.getPath().replace(sfolder, utilConf.getTempDir()), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
                             final Task importAssetsJob = new Task(importAssets);
-                            importAssetsJob.setName("ImportAssets-" + indx);
+                            importAssetsJob.setName("ImportAssets-" + sdf.format(new Timestamp(System.currentTimeMillis())));
                             importAssetsJob.start();
+                            final String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey(), sdf.format(new Timestamp(System.currentTimeMillis())));
                             new Runnable() {
                                 @Override
                                 public void run() {
@@ -224,13 +227,13 @@ public class ArtesiaUtil {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    String createImpexesCmd = MessageFormat.format(utilConf.getImprep(), node.getPath(), node.getKey());
                                     Task createImpexJob = new Task(createImpexesCmd);
-                                    createImpexJob.setName("Import-Impex-" + indx);
+                                    createImpexJob.setName("Import-Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
                                     data.append("\nImpex job initiated for [" + node.getName() + "] initiated");
                                     createImpexJob.start();
                                 }
                             };
+                            findx++;
                         }
                     }
                 } catch (IOException e) {

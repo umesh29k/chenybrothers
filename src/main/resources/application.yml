@@ -1,9 +1,9 @@
 prpath: "D:\\OpenText\\Home\\content\\bin"
 impath: "D:\\OpenText\\Home\\bin\\bin\\mservlet"
 tempDir: "D:\\OpenText\\Artesia\\temp"
-prep: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > D:\OpenText\Home\imconv\logs\cbutil-create-logs.txt
-aiprep: bulkimport.bat -user tsuper -password Otmm@123 -mode xml -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > D:\OpenText\Home\imconv\logs\cbutil-import-logs.txt
-imprep: bulk.bat -b -dir {0} -folder {1} -rdset default -profile Product -impex D:\OpenText\Home\imconv\conf\impex.properties -url http://localhost:11090/ot-damlink/ImConvServlet > D:\OpenText\Home\imconv\logs\cbutil-impex-logs.txt
+prep: bulkimport.bat -user tsuper -password Otmm@123 -mode files -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > D:\OpenText\Home\imconv\logs\cbutil\create\cbutil-create-logs{2}.txt
+aiprep: bulkimport.bat -user tsuper -password Otmm@123 -mode xml -dir {0} -nodelete -profile Product -folder {1} -createfolder D:\OpenText\Home\imconv\conf\folder.properties > D:\OpenText\Home\imconv\logs\import\cbutil\cbutil-import-logs{2}.txt
+imprep: bulk.bat -b -dir {0} -folder {1} -rdset default -profile Product -impex D:\OpenText\Home\imconv\conf\impex.properties -url http://localhost:11090/ot-damlink/ImConvServlet > D:\OpenText\Home\imconv\logs\impex\cbutil\cbutil-impex-logs{2}.txt
 log: D:\OpenText\Home\imconv\logs\job-status.log
 data: dHN1cGVyO090bW1AMTIz
 #{0] - asset directory, {1} - folder-id-from-otmm,
