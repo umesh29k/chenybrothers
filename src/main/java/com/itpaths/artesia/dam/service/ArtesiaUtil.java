@@ -57,7 +57,7 @@ public class ArtesiaUtil {
             //create assetProperties files
 
             //creating folder heierarchy
-            String createFolders = MessageFormat.format(utilConf.getPrep(), sfolder, dfolder);
+            String createFolders = MessageFormat.format(utilConf.getPrep(), utilConf.getTempDir(), dfolder);
             Task createFolderJob = new Task(createFolders);
             //folder hierarchy created
             createFolderJob.start();
