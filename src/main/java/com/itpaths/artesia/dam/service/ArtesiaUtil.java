@@ -240,8 +240,38 @@ public class ArtesiaUtil {
             this.path = path;
         }
 
+        @Override
         public void run() {
             intiateTask(command, path);
+        }
+    }
+
+    public class ImpexTask extends Thread {
+        private String command;
+        private String path;
+
+        public ImpexTask(String command, String path) {
+            this.command = command;
+            this.path = path;
+        }
+
+        @Override
+        public void run() {
+            try {
+                List<String> cmdList = new ArrayList<String>();
+                cmdList.add("cmd");
+                cmdList.add("/c");
+                cmdList.add("cd \"" + path + "\"");
+                cmdList.add(command);
+                ProcessBuilder pb = new ProcessBuilder();
+                pb.command(cmdList);
+                Process p = pb.start();
+                p.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        p.getInputStream()));
+                getProcessDetails(p);
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -348,7 +378,7 @@ public class ArtesiaUtil {
                             File output = new File(sfolder + File.separator + "impex");
                             if (!output.exists())
                                 output.mkdir();
-                            Task createImpexJob = new Task(createImpexesCmd, output.getAbsolutePath());
+                            ImpexTask createImpexJob = new ImpexTask(createImpexesCmd, output.getAbsolutePath());
                             createImpexJob.setName("Impex-" + sdf.format(new Timestamp(System.currentTimeMillis())));
                             createImpexJob.start();
                             try {
