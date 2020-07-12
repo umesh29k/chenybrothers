@@ -193,7 +193,7 @@ public class ArtesiaUtil {
         public void run() {
             int i = 0;
             File lock = null;
-            File file = new File(sfolder + "\\job-status.log");
+            File file = new File(utilConf.getLog());
             if(!file.exists()) {
                 try {
                     file.createNewFile();

@@ -27,12 +27,7 @@ public class ArtesiaWorker {
     Set<String> ids = new HashSet<>();
 
     public void prepare(String source, String dest) {
-        //cleanup(dest);
-        try {
-            FileUtils.forceDelete(new File(dest));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cleanup(dest);
         List<File> files = new ArrayList<>();
         listFolders(source, files);
         for (File f : files) {
@@ -55,7 +50,10 @@ public class ArtesiaWorker {
         if (allContents != null) {
             for (File file : allContents) {
                 try {
-                    deleteDirectory(file);
+                    if (file.isDirectory())
+                        deleteDirectory(file);
+                    else
+                        file.delete();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -266,7 +264,7 @@ public class ArtesiaWorker {
             prop.append(assetsNode);
             propMapper.put(folder.getAbsolutePath(), prop.toString());
 
-            createFile( folder.getAbsolutePath().replace(rpth, location) + File.separator + "assetProperties.xml", prop.toString());
+            createFile(folder.getAbsolutePath().replace(rpth, location) + File.separator + "assetProperties.xml", prop.toString());
         }
         return propMapper;
     }
