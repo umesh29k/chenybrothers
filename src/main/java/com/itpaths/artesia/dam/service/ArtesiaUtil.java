@@ -361,13 +361,4 @@ public class ArtesiaUtil {
         }
 
     }
-
-    public class ImpexJob extends Thread {
-        /**
-         * lets create .lck file in the bulk utility folder, however the log file will be crated into the cbutil webapp folder, where we kept folder.properties file too
-         */
-        public void run() {
-
-        }
-    }
 }
